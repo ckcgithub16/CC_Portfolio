@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seam Carving Algorithm — Chimwemwe Chinkuyu</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="site-nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="site-nav__logo">CHIMWEMWE'S PORTFOLIO</a>
+      <button class="nav-toggle" aria-label="Toggle menu" onclick="this.closest('header').querySelector('.site-nav__links').classList.toggle('is-open')">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="2" y1="6" x2="20" y2="6"/><line x1="2" y1="11" x2="20" y2="11"/><line x1="2" y1="16" x2="20" y2="16"/>
+        </svg>
+      </button>
+      <nav>
+        <ul class="site-nav__links">
+          <li><a href="index.html" class="active">PROJECTS</a></li>
+          <li><a href="about.html">ABOUT</a></li>
+          <li><a href="resume.html">RESUME</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <div class="article-header">
+        <span class="article-category">Software Development</span>
+        <h1 class="article-title">Seam Carving Algorithm</h1>
+        <p class="article-date">April 2024</p>
+      </div>
+
+      <div class="article-hero">
+        <img src="images/seam_carver/city_vertical_seam.png"
+             alt="Energy map of a city image showing the first vertical seam highlighted in red">
+      </div>
+
+      <div class="article-body">
+
+        <h2>Overview</h2>
+        <p>
+          This was a programming assignment for Princeton's Data Structures and Algorithms course,
+          implemented in Java. The <code>SeamCarver</code> class performs content-aware image
+          resizing by identifying and removing low-energy "seams" — connected paths of pixels from
+          top to bottom (vertical) or left to right (horizontal) — that pass through the least
+          visually important regions of the image.
+        </p>
+        <p>
+          The hero image above shows an energy map of a cityscape. Whiter pixels represent higher
+          energy (more visually important); the red path is the first vertical seam to be removed —
+          the lowest-energy continuous path from top to bottom.
+        </p>
+
+        <h2>Implementation</h2>
+        <p>
+          The algorithm has three main components:
+        </p>
+        <ul>
+          <li><strong>Dual-gradient energy function</strong> — computes the energy of each pixel
+              as the squared gradient magnitude in x and y directions using adjacent pixels</li>
+          <li><strong>Seam finding (dynamic programming)</strong> — finds the minimum-energy
+              vertical or horizontal seam in O(W × H) time using a DP table</li>
+          <li><strong>Seam removal</strong> — removes the identified seam by shifting pixels,
+              returning a new image one pixel narrower or shorter</li>
+        </ul>
+        <p>
+          The implementation spans 295 lines of Java and received a perfect score. Both horizontal
+          and vertical seam removal are supported, enabling 2D resizing.
+        </p>
+
+        <h2>Before and After</h2>
+
+        <h3>Original Image</h3>
+        <figure class="article-img">
+          <img src="images/seam_carver/city_before1.png" alt="Original city image before seam carving">
+        </figure>
+
+        <h3>After Seam Carving (100 vertical + 100 horizontal seams removed)</h3>
+        <figure class="article-img">
+          <img src="images/seam_carver/city_after1.png"
+               alt="City image after 100 vertical and 100 horizontal seams removed">
+        </figure>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 Chimwemwe Chinkuyu</p>
+  </footer>
+
+</body>
+</html>

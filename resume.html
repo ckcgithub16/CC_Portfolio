@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume — Chimwemwe Chinkuyu</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ======= NAV ======= -->
+  <header class="site-nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="site-nav__logo">CHIMWEMWE'S PORTFOLIO</a>
+      <button class="nav-toggle" aria-label="Toggle menu" onclick="this.closest('header').querySelector('.site-nav__links').classList.toggle('is-open')">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="2" y1="6" x2="20" y2="6"/>
+          <line x1="2" y1="11" x2="20" y2="11"/>
+          <line x1="2" y1="16" x2="20" y2="16"/>
+        </svg>
+      </button>
+      <nav>
+        <ul class="site-nav__links">
+          <li><a href="index.html">PROJECTS</a></li>
+          <li><a href="about.html">ABOUT</a></li>
+          <li><a href="resume.html" class="active">RESUME</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="resume-section">
+      <div class="container">
+
+        <!-- ======= EDUCATION ======= -->
+        <div class="resume-block">
+          <h2>Education</h2>
+          <div class="resume-entry">
+            <div class="resume-entry__row">
+              <span class="resume-entry__title">Princeton University</span>
+              <span class="resume-entry__date">Class of 2026</span>
+            </div>
+            <p class="resume-entry__org">B.S.E. Candidate — Mechanical and Aerospace Engineering, Minor in Computer Science</p>
+            <ul>
+              <li>AP Scholar with Distinction</li>
+              <li>2021 Carroll County NAACP Scholarship</li>
+              <li>1st Place, Carroll Community College 2021 Signature Assignment Showcase</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ======= OBJECTIVE ======= -->
+        <div class="resume-block">
+          <h2>Objective</h2>
+          <p>
+            Inspired by the possibility to turn ideas into smart, functional solutions at the intersection of
+            hardware and software. Eager to grow in innovation-focused environments and contribute to advanced
+            devices, autonomous systems, and technologies that enhance human health and quality of life.
+          </p>
+        </div>
+
+        <!-- ======= SKILLS ======= -->
+        <div class="resume-block">
+          <h2>Technical Skills</h2>
+          <div class="skills-grid">
+            <div class="skill-category">
+              <h3>CAD / CAM</h3>
+              <p>PTC Creo (incl. FEA), Fusion 360, Onshape, AutoCAD</p>
+            </div>
+            <div class="skill-category">
+              <h3>Programming</h3>
+              <p>Python, MATLAB, Java, C, ROS</p>
+            </div>
+            <div class="skill-category">
+              <h3>Fabrication</h3>
+              <p>3D Printing (FDM, SLA, SLS), Manual &amp; CNC Machining, Carpentry</p>
+            </div>
+            <div class="skill-category">
+              <h3>Software</h3>
+              <p>Simulink, Lucid, Jupyter Notebook, RadiAnt DICOM Viewer</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======= EXPERIENCE ======= -->
+        <div class="resume-block">
+          <h2>Internship &amp; Work Experience</h2>
+
+          <div class="resume-entry">
+            <div class="resume-entry__row">
+              <span class="resume-entry__title">Early Charm Ventures</span>
+              <span class="resume-entry__date">June 2025 – August 2025</span>
+            </div>
+            <p class="resume-entry__org">Engineering Intern</p>
+            <ul>
+              <li>Designing mechanical components in Fusion 360 and supporting prototype development</li>
+              <li>Assembly and production of electro-mechanical products</li>
+              <li>Supporting development of a metal SLS 3D printer for high-temperature ceramics</li>
+            </ul>
+          </div>
+
+          <div class="resume-entry">
+            <div class="resume-entry__row">
+              <span class="resume-entry__title">Habitat for Humanity of Carroll County</span>
+              <span class="resume-entry__date">June 2024 – July 2024</span>
+            </div>
+            <p class="resume-entry__org">Volunteer Construction Worker</p>
+            <ul>
+              <li>Ground-up construction of two residential homes</li>
+              <li>Carpentry including framing, flooring, and stair construction</li>
+              <li>Interior painting and door installation</li>
+            </ul>
+          </div>
+
+          <div class="resume-entry">
+            <div class="resume-entry__row">
+              <span class="resume-entry__title">Ventura Medical Technologies</span>
+              <span class="resume-entry__date">May 2023 – July 2023</span>
+            </div>
+            <p class="resume-entry__org">Engineering Intern</p>
+          </div>
+
+          <div class="resume-entry">
+            <div class="resume-entry__row">
+              <span class="resume-entry__title">Northrop Grumman High School Involvement Partnership (HIP)</span>
+              <span class="resume-entry__date">September 2019 – June 2021</span>
+            </div>
+            <p class="resume-entry__org">Mentee</p>
+            <ul>
+              <li>Collaborated with three Northrop Grumman engineers to design, build, program, and test a <a href="ventilator.html">low-cost ventilator system</a></li>
+              <li>Designed and built a distance-sensing <a href="tarapl.html">projectile launching system (TAR-APL)</a></li>
+              <li>Used Raspberry Pi, CAD, Python, Java, and breadboard circuits throughout the program</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ======= PROJECTS ======= -->
+        <div class="resume-block">
+          <h2>Select Projects</h2>
+
+          <div class="resume-entry">
+            <div class="resume-entry__row">
+              <span class="resume-entry__title"><a href="autonomous_car.html">Autonomous RC Race Truck</a></span>
+              <span class="resume-entry__date">March – May 2025</span>
+            </div>
+            <ul>
+              <li>Implemented iLQR trajectory optimization in Python/ROS for a self-driving RC truck</li>
+              <li>Finished 4th fastest out of 14 teams in an obstacle-avoidance race</li>
+              <li>Built a multi-layer safety filter to prevent lane departure during manual driving</li>
+            </ul>
+          </div>
+
+          <div class="resume-entry">
+            <div class="resume-entry__row">
+              <span class="resume-entry__title"><a href="psi_omega.html">Unsteady Heat Transfer Simulation</a></span>
+              <span class="resume-entry__date">April – May 2025</span>
+            </div>
+            <ul>
+              <li>Implemented a 2D Psi-Omega streamfunction-vorticity FD numerical simulation from scratch in MATLAB</li>
+              <li>Simulated laminar flow over a heated cylinder and a NACA 2412 airfoil at multiple angles of attack</li>
+            </ul>
+          </div>
+
+          <div class="resume-entry">
+            <div class="resume-entry__row">
+              <span class="resume-entry__title">Myoelectric Prosthetic Hand</span>
+              <span class="resume-entry__date">April – May 2024</span>
+            </div>
+            <p class="resume-entry__org">Princeton Robotics Club</p>
+          </div>
+
+          <div class="resume-entry">
+            <div class="resume-entry__row">
+              <span class="resume-entry__title">Credit Card Fraud Detection</span>
+              <span class="resume-entry__date">April – May 2024</span>
+            </div>
+            <ul>
+              <li>Built a machine learning model in Java using AdaBoost, Kruskal's algorithm, and DFS</li>
+            </ul>
+          </div>
+
+          <div class="resume-entry">
+            <div class="resume-entry__row">
+              <span class="resume-entry__title"><a href="airfoil.html">Design and Manufacturing of a Load-Bearing Airfoil</a></span>
+              <span class="resume-entry__date">March – May 2024</span>
+            </div>
+            <ul>
+              <li>Collaborated with 8 classmates to design and manufacture a 25.5-inch airfoil using FEA in PTC Creo</li>
+              <li>Final structure supported 97 lbs. at 23.5 inches from the secured end (3.75 in. deflection)</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ======= ACTIVITIES ======= -->
+        <div class="resume-block">
+          <h2>Activities</h2>
+
+          <div class="resume-entry">
+            <div class="resume-entry__row">
+              <span class="resume-entry__title">Princeton Christian Fellowship</span>
+              <span class="resume-entry__date">September 2021 – Present</span>
+            </div>
+            <p class="resume-entry__org">Global Ministry Team Leader</p>
+          </div>
+
+          <div class="resume-entry">
+            <div class="resume-entry__row">
+              <span class="resume-entry__title">Princeton University Robotics Club</span>
+              <span class="resume-entry__date">September 2022 – Present</span>
+            </div>
+          </div>
+
+          <div class="resume-entry">
+            <div class="resume-entry__row">
+              <span class="resume-entry__title">Princeton Men's Club Soccer</span>
+              <span class="resume-entry__date">September 2021 – Present</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======= ORGANIZATIONS ======= -->
+        <div class="resume-block">
+          <h2>Organizations</h2>
+          <ul style="margin-left: 20px; list-style: disc; line-height: 2;">
+            <li>American Society of Mechanical Engineers (ASME)</li>
+            <li>Princeton University Biomedical Engineering Society</li>
+            <li>National Society of Black Engineers (NSBE)</li>
+            <li>Princeton Black Men's Association</li>
+            <li>Ambassador for <a href="https://topofthehillgss.org" target="_blank" rel="noopener">Top of the Hills Girls Senior School</a>, Nyahururu, Kenya</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ======= FOOTER ======= -->
+  <footer class="site-footer">
+    <p>&copy; 2025 Chimwemwe Chinkuyu</p>
+  </footer>
+
+</body>
+</html>

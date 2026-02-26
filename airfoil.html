@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Load-Bearing Airfoil — Chimwemwe Chinkuyu</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="site-nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="site-nav__logo">CHIMWEMWE'S PORTFOLIO</a>
+      <button class="nav-toggle" aria-label="Toggle menu" onclick="this.closest('header').querySelector('.site-nav__links').classList.toggle('is-open')">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="2" y1="6" x2="20" y2="6"/><line x1="2" y1="11" x2="20" y2="11"/><line x1="2" y1="16" x2="20" y2="16"/>
+        </svg>
+      </button>
+      <nav>
+        <ul class="site-nav__links">
+          <li><a href="index.html" class="active">PROJECTS</a></li>
+          <li><a href="about.html">ABOUT</a></li>
+          <li><a href="resume.html">RESUME</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <div class="article-header">
+        <span class="article-category">Mechanical Engineering</span>
+        <h1 class="article-title">Design and Manufacturing of a Load-Bearing Airfoil</h1>
+        <p class="article-date">March 2023 – May 2023</p>
+      </div>
+
+      <div class="article-hero">
+        <img src="images/airfoil/wing-assembly.jpg" alt="Assembled airfoil wing">
+      </div>
+
+      <div class="article-body">
+
+        <h2>Abstract</h2>
+        <p>
+          Our team of nine designed and manufactured a 25.5-inch load-bearing airfoil that supported
+          97 lbf applied at 23.5 inches from the secured end while minimizing deflection, weight, and cost.
+          The design centered on an aluminum 7075-T651 I-beam (yield stress 73,000 psi) with circular
+          lightening holes, supported by nylon bulkheads and a balsa wood skin.
+        </p>
+        <p>
+          The final structure cost $180.75 and weighed 18.3 oz. During testing it passed the 97 lbf
+          load (3.75 in. deflection), then failed at 120 lbs when the beam web collapsed due to torsion.
+          Manufacturing used a Haas VF-7/40 CNC mill, a ProtoMAX waterjet, Creality Ender 3 Pro and
+          Formlabs SLS 3D printers, and a bandsaw.
+        </p>
+
+        <h2>Design</h2>
+        <p>
+          Two parallel beam design teams explored solid I-beams, truss I-beams, circular-hole I-beams,
+          and double I-beams. A separate group designed the bulkheads. After comparison of FEA results
+          and manufacturing feasibility, we selected the circular-hole I-beam for its favorable
+          strength-to-weight ratio.
+        </p>
+
+        <h3>Our Selected I-Beam</h3>
+        <figure class="article-img">
+          <img src="images/airfoil/circular_hole_I-beam.JPG" alt="Circular hole I-beam design">
+        </figure>
+
+        <h3>FEA on Our Selected I-Beam</h3>
+        <figure class="article-img">
+          <img src="images/airfoil/beam_fea.png" alt="Finite element analysis results for I-beam">
+        </figure>
+
+        <p>
+          The bulkheads were designed in nylon with circular cutouts to reduce weight while maintaining
+          structural integrity. The leading edge was formed from a thin aluminum sheet bent to the
+          NACA profile.
+        </p>
+
+        <h3>Bulkhead Design</h3>
+        <figure class="article-img">
+          <img src="images/airfoil/circle_bulkhead.png" alt="Circular hole bulkhead design">
+        </figure>
+
+        <h3>Leading Edge</h3>
+        <figure class="article-img">
+          <img src="images/airfoil/leadingedge.JPG" alt="Leading edge of the airfoil">
+        </figure>
+
+        <h3>I-Beam and Bulkheads Assembled</h3>
+        <figure class="article-img">
+          <img src="images/airfoil/fullbeambulkheads.PNG" alt="Full I-beam and bulkheads assembly">
+        </figure>
+
+        <h3>Full Airfoil Assembly FEA</h3>
+        <figure class="article-img">
+          <img src="images/airfoil/assembly_fea.png" alt="Full airfoil assembly FEA in PTC Creo">
+        </figure>
+
+        <h2>Manufacturing</h2>
+        <p>
+          The I-beam was CNC milled on a Haas VF-7/40. Bulkheads were waterjet-cut from aluminum
+          sheet on a ProtoMAX, while ribs were printed on an Ender 3 Pro (FDM) and critical
+          structural parts on a Formlabs SLS printer. The balsa skin was cut on a bandsaw and
+          sanded to shape.
+        </p>
+
+        <h3>Waterjetted Aluminum Bulkhead</h3>
+        <figure class="article-img">
+          <img src="images/airfoil/waterjetbh.png" alt="Waterjetted aluminum bulkhead">
+        </figure>
+
+        <h2>Testing, Results, and Conclusion</h2>
+        <p>
+          The airfoil passed the 97 lbf design load with 3.75 inches of tip deflection. Loading
+          continued until failure at 120 lbs, when the beam web collapsed due to torsion — a
+          failure mode not fully captured in our planar FEA model.
+        </p>
+        <p>
+          Key lessons: torsional loads must be explicitly modeled in 3D FEA, and physical load
+          paths in complex assemblies can differ from simplified beam-theory predictions. The cost
+          and weight targets were both met, making this a successful structural design exercise.
+        </p>
+
+        <h3>Airfoil Before Testing</h3>
+        <figure class="article-img">
+          <img src="images/airfoil/airfoil_pre_test.jpg" alt="Airfoil before load testing">
+        </figure>
+
+        <h3>Airfoil As the Load Is Being Applied</h3>
+        <figure class="article-img">
+          <img src="images/airfoil/airfoil_closeup.jpg" alt="Airfoil under load">
+        </figure>
+
+        <h3>Airfoil With Significant Deflection at 97 lbs</h3>
+        <figure class="article-img">
+          <img src="images/airfoil/airfoil_deflecting_97.jpg" alt="Airfoil deflecting 3.75 inches at 97 lbs">
+        </figure>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 Chimwemwe Chinkuyu</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Chimwemwe Chinkuyu</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ======= NAV ======= -->
+  <header class="site-nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="site-nav__logo">CHIMWEMWE'S PORTFOLIO</a>
+      <button class="nav-toggle" aria-label="Toggle menu" onclick="this.closest('header').querySelector('.site-nav__links').classList.toggle('is-open')">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="2" y1="6" x2="20" y2="6"/>
+          <line x1="2" y1="11" x2="20" y2="11"/>
+          <line x1="2" y1="16" x2="20" y2="16"/>
+        </svg>
+      </button>
+      <nav>
+        <ul class="site-nav__links">
+          <li><a href="index.html">PROJECTS</a></li>
+          <li><a href="about.html" class="active">ABOUT</a></li>
+          <li><a href="resume.html">RESUME</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="about-section">
+      <div class="container">
+
+        <!-- ======= INTRO: BIO + PHOTO ======= -->
+        <div class="about-intro">
+          <div class="about-intro__text">
+            <h1>About</h1>
+            <p class="about-tagline">
+              Princeton University '26 &mdash; B.S.E. Mechanical &amp; Aerospace Engineering, Minor in Computer Science
+            </p>
+            <p>
+              I'm Chimwemwe Chinkuyu, a senior mechanical engineering student at Princeton University
+              with a minor in Computer Science. I'm inspired by the possibility to turn ideas into
+              smart, functional solutions at the intersection of hardware and software.
+            </p>
+            <p>
+              I'm eager to grow in innovation-focused environments and contribute to advanced devices,
+              autonomous systems, and technologies that enhance human health and quality of life.
+              My work spans mechanical design, fabrication, and software development — from building
+              a load-bearing airfoil to writing autonomous vehicle controllers in Python and ROS.
+            </p>
+            <p>
+              Outside of engineering, I'm a team leader in Princeton Christian Fellowship, a member
+              of Princeton's Robotics Club and Men's Club Soccer team, and an ambassador for
+              Top of the Hills Girls Senior School in Nyahururu, Kenya.
+            </p>
+          </div>
+
+          <div class="about-intro__photo">
+            <img src="images/Chimwemwe_headshot2.png"
+                 alt="Chimwemwe Chinkuyu">
+          </div>
+        </div>
+
+        <!-- ======= CONTACT FORM ======= -->
+        <div class="contact-block">
+          <h2>Contact me</h2>
+          <form class="contact-form" action="https://formspree.io/f/mqaazkzo" method="POST">
+            <div class="contact-block-row">
+              <div class="form-group">
+                <label for="first-name">First name</label>
+                <input type="text" id="first-name" name="first_name" placeholder="Jane" required>
+              </div>
+              <div class="form-group">
+                <label for="last-name">Last name</label>
+                <input type="text" id="last-name" name="last_name" placeholder="Smitherton" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email-about">Email address</label>
+              <input type="email" id="email-about" name="_replyto" placeholder="email@yourdomain.net" required>
+            </div>
+            <div class="form-group">
+              <label for="message-about">Your message</label>
+              <textarea id="message-about" name="message" placeholder="Enter your question or message" required></textarea>
+            </div>
+            <div>
+              <button type="submit" class="btn btn-dark" style="width:100%">Submit</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ======= FOOTER ======= -->
+  <footer class="site-footer">
+    <p>&copy; 2025 Chimwemwe Chinkuyu</p>
+  </footer>
+
+</body>
+</html>
