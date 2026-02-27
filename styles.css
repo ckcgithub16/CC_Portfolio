@@ -254,6 +254,8 @@ ul { list-style: none; }
   display: flex;
   flex-direction: column;
   gap: 18px;
+  width: 100%;
+  max-width: 640px;
 }
 
 .form-group {
@@ -601,7 +603,9 @@ ul { list-style: none; }
   margin-top: 60px;
   padding-top: 52px;
   border-top: 1px solid var(--color-border);
-  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .contact-block h2 {
