@@ -102,12 +102,9 @@ ul { list-style: none; }
 }
 
 .nav-linkedin {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  border-bottom: none !important;
-  padding-bottom: 0 !important;
-  line-height: 1;
-  color: var(--color-text);
+  border-bottom: 2px solid transparent !important;
 }
 
 .nav-linkedin:hover {
