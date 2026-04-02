@@ -101,6 +101,19 @@ ul { list-style: none; }
   border-bottom-color: var(--color-heading);
 }
 
+.nav-linkedin {
+  display: inline-flex;
+  align-items: center;
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+  line-height: 1;
+  color: var(--color-text);
+}
+
+.nav-linkedin:hover {
+  color: #0077b5 !important;
+}
+
 /* Mobile nav toggle (hidden on desktop) */
 .nav-toggle {
   display: none;
