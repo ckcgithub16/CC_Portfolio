@@ -630,6 +630,25 @@ ul { list-style: none; }
 }
 
 /* ===================================================================
+   TEXT LINK HOVER
+   =================================================================== */
+a:not(.project-card):not(.nav-linkedin):hover {
+  color: #0A66C2;
+}
+
+/* Full-entry linked resume blocks need explicit child overrides
+   because title/date/li have their own colors set */
+a.resume-entry {
+  display: block;
+}
+
+a.resume-entry:hover .resume-entry__title,
+a.resume-entry:hover .resume-entry__date,
+a.resume-entry:hover li {
+  color: #0A66C2;
+}
+
+/* ===================================================================
    RESPONSIVE
    =================================================================== */
 @media (max-width: 960px) {
