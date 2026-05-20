@@ -37,7 +37,7 @@
       </div>
 
       <div class="article-hero">
-        <img src="images/sarr/robot_hero.jpg" alt="Completed search and rescue robot — Motherbot and Babybot">
+        <img src="images/sarr/motherbot_on_ramp.JPG" alt="Completed Motherbot on the ramp obstacle">
       </div>
 
       <div class="article-body">
@@ -62,13 +62,29 @@
         <h2>System Overview</h2>
         <p>
           The mission splits into two phases. In Phase 1, the Motherbot drives the full obstacle
-          course while the Babybot rides secured to the lifting arm. The Motherbot navigates a
-          flat section, climbs a ramp, traverses a chute, and stops at a 36-inch wall. In Phase 2,
-          the lifting arm autonomously swings the Babybot up and over the wall, setting it down on
-          the other side. The Babybot then operates independently, following its own sensor-guided
-          path to the target zone where it detects a bright incandescent light and deploys its
-          medkit payload.
+          course while the Babybot rides secured to the lifting arm. In Phase 2, the lifting arm
+          autonomously swings the Babybot up and over the wall, setting it down on the other side.
+          The Babybot then operates independently, following its own sensor-guided path to the
+          target zone where it detects a bright incandescent light and deploys its medkit payload.
         </p>
+
+        <h3>Obstacle Course</h3>
+        <p>
+          The course begins with a flat section marked by a strip of tape that both robots use
+          for line-following. The Motherbot first encounters a ramp — an inclined surface it must
+          climb and descend while staying on course. After the ramp, the robot enters a chute: a
+          narrow channel that constrains its path and demands tighter steering control. At the end
+          of the chute sits the primary obstacle, a 36-inch-tall wall (48 inches total height
+          including a 12-inch wooden base platform). The wall is 36 inches wide with a 6-inch
+          ledge at the base. The Motherbot parks at the wall, deploys the Babybot over it via
+          the lifting arm, and the Babybot navigates the far side to a lit target station where it
+          drops the medkit into a basket.
+        </p>
+
+        <h3>Wall Obstacle Dimensions</h3>
+        <figure class="article-img">
+          <img src="images/sarr/wall_obstacle_dimensions.png" alt="Dimensioned drawing of the 36-inch wall obstacle — 48 inches tall, 36 inches wide, with a 12-inch wooden base platform">
+        </figure>
 
         <h3>System Concept</h3>
         <figure class="article-img">
@@ -203,6 +219,11 @@
           analytically using arm geometry, Babybot mass (~30 lbf), and friction coefficients.
         </p>
 
+        <h3>Motherbot Deploying Babybot Over the Wall</h3>
+        <figure class="article-img">
+          <img src="images/sarr/motherbot_deploying_babybot.JPG" alt="Motherbot at the wall with the lifting arm raised, Babybot being carried over the top">
+        </figure>
+
         <h3>Early Lifting Arm Concept — Gantry Design</h3>
         <figure class="article-img">
           <img src="images/sarr/lifting_arm_cad_early_concept.png" alt="Early gantry-crane concept for the lifting mechanism, later replaced by a rotating arm design">
@@ -234,6 +255,11 @@
         <h3>Babybot Chassis Assembly</h3>
         <figure class="article-img">
           <img src="images/sarr/babybot_chassis_assembly_drawing.png" alt="Babybot chassis assembly drawing">
+        </figure>
+
+        <h3>Completed Babybot</h3>
+        <figure class="article-img">
+          <img src="images/sarr/babybot_photo.jpeg" alt="Completed Babybot assembled and ready for testing">
         </figure>
 
         <h2>Manufacturing</h2>
@@ -276,11 +302,6 @@
           can be designed, manufactured, and integrated within an eight-week academic timeline
           through disciplined subteam interface management.
         </p>
-
-        <h3>Completed Babybot</h3>
-        <figure class="article-img">
-          <img src="images/sarr/babybot_photo.jpeg" alt="Completed Babybot assembled and ready for testing">
-        </figure>
 
       </div>
     </div>
