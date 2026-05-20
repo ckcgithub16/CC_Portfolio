@@ -167,6 +167,9 @@ ul { list-style: none; }
   cursor: pointer;
 }
 
+/* SAR Robot hero: full width (6/6 cols) */
+.project-card--full   { grid-column: span 6; }
+
 /* Airfoil featured: wide (4/6 cols) */
 .project-card--wide   { grid-column: span 4; }
 
@@ -668,6 +671,7 @@ a.resume-entry:hover li {
 
   /* Override all spans to 1 column */
   .project-card,
+  .project-card--full,
   .project-card--wide,
   .project-card--half { grid-column: span 1; }
 
@@ -716,6 +720,7 @@ a.resume-entry:hover li {
   }
 
   .project-card,
+  .project-card--full,
   .project-card--wide,
   .project-card--half { grid-column: span 1; }
 

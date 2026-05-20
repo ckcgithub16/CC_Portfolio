@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search and Rescue Robot — Chimwemwe Chinkuyu</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="site-nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="site-nav__logo">CHIMWEMWE'S PORTFOLIO</a>
+      <button class="nav-toggle" aria-label="Toggle menu" onclick="this.closest('header').querySelector('.site-nav__links').classList.toggle('is-open')">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="2" y1="6" x2="20" y2="6"/><line x1="2" y1="11" x2="20" y2="11"/><line x1="2" y1="16" x2="20" y2="16"/>
+        </svg>
+      </button>
+      <nav>
+        <ul class="site-nav__links">
+          <li><a href="index.html" class="active">PROJECTS</a></li>
+          <li><a href="about.html">ABOUT</a></li>
+          <li><a href="resume.html">RESUME</a></li>
+          <li><a href="https://www.linkedin.com/in/chimwemwe-chinkuyu/" target="_blank" rel="noopener" aria-label="LinkedIn" class="nav-linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <div class="article-header">
+        <span class="article-category">Mechanical Engineering</span>
+        <h1 class="article-title">Design and Manufacturing of a Search and Rescue Robot</h1>
+        <p class="article-date">October 2025 – December 2025</p>
+      </div>
+
+      <div class="article-hero">
+        <img src="images/sarr/robot_hero.jpg" alt="Completed search and rescue robot — Motherbot and Babybot">
+      </div>
+
+      <div class="article-body">
+
+        <h2>Abstract</h2>
+        <p>
+          An eleven-member team designed and built a marsupial search-and-rescue robot over eight weeks
+          as the culminating project for MAE 322: Mechanical Engineering Design. The system consists of
+          a large parent robot (the Motherbot) that autonomously navigates a multi-obstacle course —
+          including a ramp, a chute, and a 36-inch wall — while carrying a smaller sub-robot (the
+          Babybot). Upon reaching the wall, an onboard motorized lifting arm deploys the Babybot over
+          the top; the Babybot then navigates independently to a target zone and delivers a medkit payload.
+          Both robots operate via closed-loop control using CdS phototransistor arrays for line-following
+          and ultrasonic distance sensors for obstacle detection.
+        </p>
+        <p>
+          My primary contributions were the mechanical design — including FEA, manufacturing drawings,
+          and fabrication — of the Motherbot's low-carbon steel chassis and the 60:1 two-stage
+          belt-driven drivetrain.
+        </p>
+
+        <h2>System Overview</h2>
+        <p>
+          The mission splits into two phases. In Phase 1, the Motherbot drives the full obstacle
+          course while the Babybot rides secured to the lifting arm. The Motherbot navigates a
+          flat section, climbs a ramp, traverses a chute, and stops at a 36-inch wall. In Phase 2,
+          the lifting arm autonomously swings the Babybot up and over the wall, setting it down on
+          the other side. The Babybot then operates independently, following its own sensor-guided
+          path to the target zone where it detects a bright incandescent light and deploys its
+          medkit payload.
+        </p>
+
+        <h3>System Concept</h3>
+        <figure class="article-img">
+          <img src="images/sarr/system_concept_diagram.png" alt="System concept diagram showing Motherbot, wall, Babybot, and medkit delivery zone">
+        </figure>
+
+        <h3>Lifting Arm Deployment Sequence</h3>
+        <figure class="article-img">
+          <img src="images/sarr/lifting_arm_deployment_sequence.png" alt="Four-step sequence showing the lifting arm swinging the Babybot over the 36-inch wall">
+        </figure>
+
+        <h2>Software Architecture</h2>
+        <p>
+          Both robots share the same overarching control architecture: a main loop reads sensor
+          data, evaluates the current state, selects a control action, and drives the motors.
+          This allows each robot to switch between distinct control strategies as the terrain
+          and mission phase change.
+        </p>
+        <p>
+          The Motherbot progresses through five sequential states. On the flat approach section
+          it uses proportional control, computing a steering correction from the difference
+          between left and right CdS phototransistor readings. On the ramp it switches to
+          bang-bang control — full motor power — to climb without stalling. Through the chute
+          it applies PD control to damp the oscillation that proportional-only control would
+          introduce in the narrow channel. At the wall, an open-loop timed sequence stops the
+          robot and triggers the lifting arm. The Babybot runs the same architecture after
+          deployment: proportional CdS line-following to the target, a CdS-triggered servo
+          release of the medkit, then line-following back to the wall.
+        </p>
+        <p>
+          State transitions on both robots are driven by ultrasonic distance sensors. The
+          Motherbot detects the ramp base, chute entry, and wall at defined approach distances
+          and shifts its control mode accordingly; the Babybot uses ultrasonic range to detect
+          the wall on return. CdS phototransistors are wired as voltage dividers and mounted
+          low to the ground spanning the width of the course tape. The analog voltage difference
+          between the left and right sensors is the error signal fed directly into the
+          controller. The same CdS logic that steers both robots also triggers medkit delivery
+          — the Babybot's delivery state activates when the sensor reading exceeds the
+          threshold set for the bright incandescent target light.
+        </p>
+
+        <h2>Electrical Systems</h2>
+        <p>
+          Each robot carries an independent electrical system powered by onboard batteries. On the
+          Motherbot, four CIM brushed DC motors are driven by L298N H-bridge motor driver modules,
+          one per motor. A Teensy microcontroller receives sensor inputs and outputs PWM signals to
+          the motor drivers to execute the control law. The CdS phototransistors are wired as
+          voltage dividers, and the ultrasonic sensors communicate via standard trigger-echo GPIO
+          pins. The Babybot uses the same sensor and microcontroller architecture scaled to its
+          two-motor drivetrain and servo-actuated delivery mechanism.
+        </p>
+        <p>
+          Wiring harnesses were built with labeled connectors to allow subsystem swap-out during
+          integration and debugging. The electrical design was developed in parallel with the
+          mechanical subteams and finalized before manufacturing began, ensuring that motor
+          driver mounting locations and sensor attachment points were incorporated into chassis
+          and structural designs from the start.
+        </p>
+
+        <h3>Motherbot Wiring Schematic</h3>
+        <figure class="article-img">
+          <img src="images/sarr/motherbot_wiring_schematic.png" alt="Motherbot wiring schematic showing microcontroller, motor drivers, sensors, and power distribution">
+        </figure>
+
+        <h2>Mechanical Design — Motherbot Chassis</h2>
+        <p>
+          The Motherbot chassis is the structural backbone of the entire system, supporting
+          the four-motor drivetrain, the lifting arm mounting point, all onboard electronics,
+          and the weight of the Babybot during Phases 1 and 2. Low-carbon steel (AISI 1018)
+          channel stock was selected for its yield strength, weldability, and machinability —
+          all critical constraints given the available machine shop equipment (MIG welder,
+          Bridgeport knee mill, horizontal band saw).
+        </p>
+        <p>
+          I designed the chassis geometry in Onshape, iterating on cross-section sizes and
+          joint locations to maximize rigidity at the motor mount positions and lifting arm
+          attachment point while minimizing overall mass within the weight budget. A free body
+          diagram approach was used to locate the system's center of mass and verify tip-over
+          stability during wall traversal — a non-trivial constraint because the Babybot is
+          cantilevered at height by the arm during deployment. Structural analysis confirmed
+          that chassis members and welded joints remained below yield under combined static
+          loading and the dynamic torque from the lifting arm.
+        </p>
+        <p>
+          The chassis was cut to length on the band saw, coped at intersections, tack-welded on
+          a flat reference surface for squareness, and finish-welded in the machine shop. The
+          completed weldment showed no visible deformation through all testing.
+        </p>
+
+        <h3>Chassis Assembly — Four Views</h3>
+        <figure class="article-img">
+          <img src="images/sarr/motherbot_chassis_assembly_drawing.png" alt="Motherbot chassis assembly — top, isometric, front, and side views">
+        </figure>
+
+        <h2>Mechanical Design — Drivetrain</h2>
+        <p>
+          Moving the fully loaded Motherbot — carrying the Babybot, lifting arm, and all
+          electronics — over the ramp and chute required substantial wheel torque from the CIM
+          brushed DC motors. I designed a 60:1 two-stage belt reduction to step down motor
+          speed while multiplying output torque. HTD-profile toothed belts route power from each
+          motor shaft through an intermediate jackshaft to the final drive axles. The axle
+          configuration places both drive wheels on a common shaft per side, providing
+          synchronized four-wheel drive.
+        </p>
+        <p>
+          Belt drives were selected over chain or gear trains for their shock-absorption
+          characteristics, low noise, and tolerance for minor shaft misalignment — all important
+          on a robot subject to hard impacts traversing the ramp step. Pulley diameters and
+          jackshaft sizing were calculated to keep belt tensions within rated limits at the
+          maximum motor stall torque. An early integration issue — slight belt walk on one
+          drivetrain — was resolved by adding adjustment slots to the motor mount brackets,
+          allowing precise pulley alignment without disassembling the chassis.
+        </p>
+
+        <h2>Mechanical Design — Lifting Arm</h2>
+        <p>
+          The lifting arm is the most mechanically complex subsystem on the Motherbot — it must
+          pick up the Babybot from a carrier bay, swing it up and over a 36-inch wall, and set
+          it down cleanly on the other side, all autonomously. Early concept designs explored a
+          gantry-style crane mechanism, but this was rejected for its size and mass penalty.
+          The final design uses a rotating arm that pivots about a fixed point on the Motherbot
+          frame. A DC motor drives the arm through a belt-and-pulley reduction, rotating the
+          arm from a stowed horizontal position to a fully raised position that clears the wall.
+        </p>
+        <p>
+          The Babybot attaches to the end of the arm via a cradle assembly that uses a spring
+          latch mechanism. As the arm lifts, the cradle keeps the Babybot level to prevent it
+          from slipping out. When the arm reaches the far side of the wall and begins to lower,
+          the cradle contacts a release surface that unlatches, depositing the Babybot on the
+          ground behind the wall. The arm then retracts automatically under motor control.
+          Motor torque requirements for lifting and horizontal movement were calculated
+          analytically using arm geometry, Babybot mass (~30 lbf), and friction coefficients.
+        </p>
+
+        <h3>Early Lifting Arm Concept — Gantry Design</h3>
+        <figure class="article-img">
+          <img src="images/sarr/lifting_arm_cad_early_concept.png" alt="Early gantry-crane concept for the lifting mechanism, later replaced by a rotating arm design">
+        </figure>
+
+        <h2>Mechanical Design — Babybot</h2>
+        <p>
+          The Babybot is a compact two-wheel-drive robot designed to fit within the Motherbot's
+          carrier bay and operate independently after deployment. Its chassis was designed around
+          the same structural priorities as the Motherbot — low center of mass, rigid motor mount
+          points, and a flat deck for electronics — but fabricated primarily in 3D-printed PLA
+          to minimize weight. The Babybot carries its own CdS sensor array, ultrasonic sensor,
+          microcontroller, motor drivers, and battery pack, all integrated within a tight
+          envelope constrained by the wall width and carrier bay dimensions.
+        </p>
+        <p>
+          The medkit delivery system is a servo-actuated mechanism that holds the medkit during
+          transit and releases it when the CdS sensors detect the bright incandescent light at
+          the target zone. The gripper mechanism was designed to grip the medkit's cylindrical
+          handle reliably under the vibration of driving, and to release it cleanly on a
+          single servo trigger without jamming.
+        </p>
+
+        <h3>Babybot Full Assembly</h3>
+        <figure class="article-img">
+          <img src="images/sarr/babybot_full_assembly_drawing.png" alt="Babybot full assembly — front, isometric, top, and side views">
+        </figure>
+
+        <h3>Babybot Chassis Assembly</h3>
+        <figure class="article-img">
+          <img src="images/sarr/babybot_chassis_assembly_drawing.png" alt="Babybot chassis assembly drawing">
+        </figure>
+
+        <h2>Manufacturing</h2>
+        <p>
+          The steel Motherbot chassis was cut on a horizontal band saw, coped at intersections
+          using the knee mill, and MIG-welded on a flat reference plate to maintain squareness.
+          Drive pulleys and jackshafts were turned on a manual lathe; motor mount brackets were
+          milled on the Bridgeport. The Motherbot's 3D-printed components — sensor mounts,
+          wiring guides, and electronics enclosures — were printed in PLA on FDM printers and
+          fastened with standard hardware.
+        </p>
+        <p>
+          All Babybot structural components, including the chassis, axle mounts, medkit delivery
+          mechanism, and gripper assembly, were 3D-printed in PLA and assembled with standard
+          hardware and off-the-shelf fasteners. The arm lifting mechanism was fabricated from
+          a mix of 3D-printed structural brackets and aluminum extrusion.
+        </p>
+        <p>
+          All subteams worked from a shared Onshape assembly model that defined interface
+          dimensions — the carrier bay, arm pivot location, and electronics deck — as top-level
+          parameters, ensuring that independently designed subsystems fit together without
+          modification during assembly.
+        </p>
+
+        <h2>Testing and Results</h2>
+        <p>
+          The completed robot successfully navigated the full obstacle course in the final
+          class demonstration. The Motherbot's CdS-guided proportional control maintained
+          course tracking on the flat section. Ultrasonic sensing correctly triggered state
+          transitions at the ramp base and chute entry. The 60:1 belt drivetrain provided
+          ample torque to climb the ramp and step up to the wall platform with the full
+          Babybot payload.
+        </p>
+        <p>
+          The lifting arm autonomously deployed the Babybot over the 36-inch wall. The Babybot
+          landed successfully, activated its state machine via the base switch, navigated by
+          CdS line-following to the target zone, detected the light source, and released the
+          medkit into the delivery basket. The steel chassis showed no visible deformation
+          after testing. The system demonstrated that an autonomous marsupial robot platform
+          can be designed, manufactured, and integrated within an eight-week academic timeline
+          through disciplined subteam interface management.
+        </p>
+
+        <h3>Completed Babybot</h3>
+        <figure class="article-img">
+          <img src="images/sarr/babybot_photo.jpeg" alt="Completed Babybot assembled and ready for testing">
+        </figure>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 Chimwemwe Chinkuyu</p>
+  </footer>
+
+</body>
+</html>
