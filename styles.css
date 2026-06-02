@@ -147,7 +147,19 @@ ul { list-style: none; }
   font-size: 1.5rem;
   color: var(--color-heading);
   letter-spacing: -0.02em;
+  margin-bottom: 0;
+}
+
+.section-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 20px;
+}
+
+.btn-sm {
+  padding: 8px 18px;
+  font-size: 0.82rem;
 }
 
 /* 10-column CSS grid */

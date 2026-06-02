@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python generate_portfolio.py)",
+      "Bash(start *)",
+      "Bash(Start-Process *)",
+      "Bash(cmd *)"
+    ]
+  }
+}
