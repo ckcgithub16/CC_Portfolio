@@ -4,7 +4,10 @@
       "Bash(python generate_portfolio.py)",
       "Bash(start *)",
       "Bash(Start-Process *)",
-      "Bash(cmd *)"
+      "Bash(cmd *)",
+      "Bash(python -c \"import fitz; print\\('pymupdf', fitz.__doc__\\)\")",
+      "Bash(python -c \"import pdf2image; print\\('pdf2image ok'\\)\")",
+      "Bash(python -c ' *)"
     ]
   }
 }

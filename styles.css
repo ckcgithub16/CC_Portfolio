@@ -162,6 +162,30 @@ ul { list-style: none; }
   font-size: 0.82rem;
 }
 
+/* Quiet text link used for the portfolio PDF download by the Projects heading.
+   On hover a filled box appears around the text. */
+.download-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-muted);
+  padding: 6px 14px;
+  margin-right: -14px;        /* keep text aligned to the grid edge at rest */
+  border-radius: var(--radius);
+  background: transparent;
+  white-space: nowrap;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.download-link:hover {
+  background: var(--color-btn);
+  color: #fff;
+}
+
+.download-link svg { flex-shrink: 0; }
+
 /* 10-column CSS grid */
 .projects-grid {
   display: grid;
@@ -652,7 +676,7 @@ ul { list-style: none; }
 /* ===================================================================
    TEXT LINK HOVER
    =================================================================== */
-a:not(.project-card):not(.nav-linkedin):hover {
+a:not(.project-card):not(.nav-linkedin):not(.download-link):hover {
   color: #0A66C2;
 }
 
