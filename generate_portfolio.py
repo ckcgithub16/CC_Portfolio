@@ -402,7 +402,7 @@ def draw_about(c, total_pages):
                      left_w - 4, size=13, color=C_MID, line_height=18)
     y -= 20
 
-    # Bio — 2 paragraphs
+    # Bio — 2 paragraphs, under a Motivation header
     bio_paras = [
         "I'm inspired by the possibility to turn ideas into smart, functional solutions at "
         "the intersection of hardware and software. My work spans mechanical design, fabrication, "
@@ -410,6 +410,8 @@ def draw_about(c, total_pages):
         "I'm eager to grow in innovation-focused environments and contribute to advanced devices, "
         "autonomous systems, and technologies that enhance human health and quality of life.",
     ]
+    draw_section_label(c, CX, y, "Motivation")
+    y -= 18
     for para in bio_paras:
         y = wrapped_text(c, CX, y, para, left_w - 4, size=13, color=C_MID, line_height=18)
         y -= 16
@@ -472,8 +474,8 @@ def draw_about(c, total_pages):
     y -= 20
 
     draw_text(c, CX, y, "EMAIL", size=11, color=C_MUTED, font="Helvetica-Bold")
-    draw_hyperlink(c, CX + LABEL_W_L, y, "cc9970@princeton.edu",
-                   "mailto:cc9970@princeton.edu", size=12)
+    draw_hyperlink(c, CX + LABEL_W_L, y, "chimwemwe.chinkuyu16scs@gmail.com",
+                   "mailto:chimwemwe.chinkuyu16scs@gmail.com", size=12)
 
     draw_footer(c, 2, total_pages)
     c.showPage()
@@ -487,7 +489,7 @@ def draw_sarr(c, page_start, total_pages):
 
     content_top = draw_project_title_block(c,
         "Design & Manufacturing of a Search and Rescue Robot",
-        "MAE 322: Mechanical Design", "Oct – Dec 2025")
+        "Mechanical Engineering", "Oct – Dec 2025")
 
     iw          = img_col_w()
     total       = content_top - CY
@@ -561,7 +563,7 @@ def draw_sarr(c, page_start, total_pages):
 
     content_top = draw_project_title_block(c,
         "Search and Rescue Robot — Chassis Design & Manufacturing",
-        "MAE 322: Mechanical Design", "Oct – Dec 2025")
+        "Mechanical Engineering", "Oct – Dec 2025")
 
     iw = img_col_w()
 
@@ -622,14 +624,17 @@ def draw_gearbox(c, page_start, total_pages):
 
     draw_text_column(c, [
         ("Overview",
-         "A fully parametric bevel-gear axle differential designed entirely in "
-         "Autodesk Fusion 360. The planetary differential configuration distributes "
-         "drive torque between two output shafts while allowing independent rotation "
-         "speeds, enabling smooth, skid-free turning."),
-        ("Design Approach",
+         "As a personal project to sharpen my CAD skills, I designed a fully "
+         "parametric bevel-gear axle differential entirely in Autodesk Fusion 360. "
+         "The planetary differential configuration distributes drive torque between "
+         "two output shafts while allowing independent rotation speeds, enabling "
+         "smooth, skid-free turning."),
+        ("Design Approach", [
          "Gear geometry was determined using standard bevel gear formulas driven by "
-         "linked Fusion 360 equations — module, pressure angle, tooth count, and pitch "
-         "circle diameter update the full geometry automatically as inputs change."),
+         "linked Fusion 360 equations.",
+         "Module, pressure angle, tooth count, and pitch circle diameter update the "
+         "full geometry automatically as inputs change.",
+        ]),
         ("Skills Used",
          "Autodesk Fusion 360 · Parametric Modeling · Bevel Gear Theory · "
          "Assembly Constraints · Engineering Visualization"),
@@ -681,10 +686,11 @@ def draw_gearbox(c, page_start, total_pages):
                   size=9.5, color=C_MUTED, align="center")
 
     draw_text_column(c, [
-        ("Parametric Design",
-         "Every component dimension is driven by top-level gear parameters. "
+        ("Parametric Design", [
+         "Every component dimension is driven by top-level gear parameters.",
          "Changing the module or tooth count propagates through the entire "
-         "assembly without manual rework — a key advantage for iterative design."),
+         "assembly without manual rework — a key advantage for iterative design.",
+        ]),
     ], start_y=content_top)
 
     draw_footer(c, page_start + 1, total_pages)
@@ -698,36 +704,47 @@ def draw_car(c, page_start, total_pages):
 
     content_top = draw_project_title_block(c,
         "Self-Driving RC Truck with Obstacle Avoidance & Safety Filter",
-        "ECE 346: Intelligent Robotic Systems", "Mar – May 2025")
+        "Mechanical Engineering  ·  Software Development", "Mar – May 2025")
 
-    iw = img_col_w()
-    LINK_H = 18
-    fit_image(c, os.path.join(BASE, "images/autonomous_car/autonomous_car_main.jpeg"),
-              CX, CY + LINK_H, iw, content_top - CY - LINK_H, anchor="top")
-    draw_hyperlink(c, CX + iw / 2, CY + 4,
-                   "▶  Watch the team's run on YouTube",
-                   "https://youtu.be/9XfZ48AbwDY", size=10, align="center")
+    iw    = img_col_w()
+    track = "images/autonomous_car/car_on_track2.png"
+
+    # Full-width photo of the truck on the Task 1 course, with the run video linked
+    # beneath it (the YouTube clip is the team's Task 1 run on this track).
+    track_h = fitted_dh(os.path.join(BASE, track), iw, content_top - CY)
+    track_shelf = content_top - track_h
+    draw_shelf_image(c, track, CX, track_shelf, iw, track_h,
+                     "Navigating the Task 1 obstacle course")
+    # Center the run-video link vertically between the image bottom and footer rule.
+    link_size = 15
+    link_mid  = (track_shelf + (CY - 2)) / 2
+    draw_hyperlink(c, CX + iw / 2, link_mid - link_size * 0.35,
+                   "▶  Watch the team's Task 1 run on YouTube",
+                   "https://youtu.be/9XfZ48AbwDY", size=link_size, align="center")
 
     draw_text_column(c, [
         ("Overview",
-         "A 1/10-scale autonomous RC truck running Python and ROS on an NVIDIA Jetson, "
-         "developed by a team of 4. It completed two tasks: an autonomous obstacle-course "
-         "race and a real-time driver-assist safety filter."),
+         "For an intelligent robotics course, I worked in a team of 4 to program an "
+         "autonomous RC truck, powered by an NVIDIA Jetson, to complete two tasks: "
+         "racing through an obstacle course, and running a real-time driver-assist "
+         "safety filter."),
         ("My Contribution",
-         "Algorithm development, code implementation, and debugging of both software "
-         "and hardware."),
-        ("Task 1 — Obstacle Course Racing",
+         "Algorithm development · Code implementation · "
+         "Debugging of both software and hardware"),
+        ("Task 1 — Obstacle Course Racing", [
          "Implemented an iLQR (iterative Linear Quadratic Regulator) controller with "
-         "cost-prioritization to drive autonomously through 16 ordered waypoints within "
-         "3:30 while avoiding up to 20 randomly placed obstacle cubes. Finished 4th "
-         "fastest of 14 teams after time penalties."),
-        ("Task 2 — Safety Filter",
+         "cost-prioritization to navigate 16 ordered waypoints in 3:30 while avoiding "
+         "up to 20 obstacle cubes.",
+         "Finished 4th fastest of 14 teams after time penalties.",
+        ]),
+        ("Task 2 — Safety Filter", [
          "Built an Advanced Driver Assistance System (ADAS) that uses iLQR to monitor "
-         "manual driver inputs in real time, overriding steering that would leave the "
-         "track or cross lane boundaries while minimizing unnecessary interventions."),
+         "manual driver inputs in real time.",
+         "Overrides steering that would leave the track or cross lane boundaries while "
+         "minimizing unnecessary interventions.",
+        ]),
         ("Skills Used",
-         "Python · ROS · NVIDIA Jetson · iLQR · Optimal Control · "
-         "Path Planning · Obstacle Avoidance · Sim-to-Hardware Transfer"),
+         "Python · ROS · Optimal Control · Path Planning · Obstacle Avoidance"),
     ], start_y=content_top)
 
     draw_footer(c, page_start, total_pages)
@@ -785,16 +802,17 @@ def draw_heat(c, page_start, total_pages):
 
     draw_text_column(c, [
         ("Overview",
-         "A Psi-Omega (streamfunction-vorticity) finite difference numerical "
-         "simulation built from scratch in MATLAB. Two geometries studied: "
-         "a 400°C cylinder in 300°C flow (convective heat flux 7.6 kW/m²), and "
-         "a NACA 2412 airfoil at 5° and 30° AoA "
-         "(heat flux 1,002.6 vs 1,133.6 W/m²). Each run took 3–6 hours."),
-        ("Technical Approach",
-         "Three coupled PDEs solved at each time step: "
-         "Streamfunction (Poisson) via Gauss-Seidel with over-relaxation; "
-         "Vorticity (momentum) via forward Euler with upwind differencing; "
-         "Temperature (energy) coupled to the velocity field."),
+         "For a heat transfer course, I built a Psi-Omega (streamfunction-vorticity) "
+         "finite-difference simulation from scratch in MATLAB to model 2D unsteady "
+         "heat transfer over two geometries: a 400°C cylinder in 300°C flow "
+         "(convective heat flux 7.6 kW/m²), and a NACA 2412 airfoil at 5° and 30° "
+         "angles of attack (heat flux 1,002.6 vs 1,133.6 W/m²)."),
+        ("Technical Approach", [
+         "Three coupled PDEs solved at each time step:",
+         "Streamfunction (Poisson) via Gauss-Seidel with over-relaxation",
+         "Vorticity (momentum) via forward Euler with upwind differencing",
+         "Temperature (energy) coupled to the velocity field",
+        ]),
         ("Skills Used",
          "MATLAB · Finite Difference Methods · Fluid Dynamics · Heat Transfer · "
          "Numerical Stability · CFD Validation"),
@@ -832,7 +850,7 @@ def draw_airfoil(c, page_start, total_pages):
 
     content_top = draw_project_title_block(c,
         "Design and Manufacturing of a Load-Bearing Airfoil",
-        "MAE 321: Engineering Design", "Mar – May 2023")
+        "Mechanical Engineering", "Mar – May 2023")
 
     iw = img_col_w()
 
@@ -863,15 +881,18 @@ def draw_airfoil(c, page_start, total_pages):
          "airfoil supported 97 lbf at 23.5 in. from the secured end with 3.75 in. "
          "tip deflection, weighed 18.3 oz, and failed at 120 lbs (beam web torsion) "
          "— above the 97 lbf design load."),
-        ("Design",
+        ("Design", [
          "Aluminum 7075-T651 I-beam (yield stress 73,000 psi) with circular "
-         "lightening holes selected for best strength-to-weight ratio from four "
-         "competing beam concepts. Nylon bulkheads with circular cutouts reduced "
-         "weight; balsa wood skin formed the NACA profile."),
-        ("FEA & Validation",
-         "PTC Creo FEA validated deflection at 97 lbf. Failure mode — beam web "
-         "torsion collapse at 120 lbs — was not captured in the planar FEA model, "
-         "teaching the importance of 3D torsional load modeling."),
+         "lightening holes — selected for best strength-to-weight ratio from four "
+         "competing beam concepts.",
+         "Nylon bulkheads with circular cutouts reduced weight.",
+         "Balsa wood skin formed the NACA profile.",
+        ]),
+        ("FEA & Validation", [
+         "PTC Creo FEA validated deflection at 97 lbf.",
+         "Failure mode — beam web torsion collapse at 120 lbs — was not captured in "
+         "the planar FEA model, teaching the importance of 3D torsional load modeling.",
+        ]),
         ("Skills Used",
          "PTC Creo · FEA · CNC Milling (Haas VF-7/40) · Waterjet (ProtoMAX) · "
          "FDM & SLS 3D Printing · Structural Analysis · GD&T"),
@@ -885,7 +906,7 @@ def draw_airfoil(c, page_start, total_pages):
 
     content_top = draw_project_title_block(c,
         "Load-Bearing Airfoil — Manufacturing & Testing",
-        "MAE 321: Engineering Design", "Mar – May 2023")
+        "Mechanical Engineering", "Mar – May 2023")
 
     iw   = img_col_w()
     gap  = 12
@@ -913,17 +934,22 @@ def draw_airfoil(c, page_start, total_pages):
                      "Waterjetted Bulkhead")
 
     draw_text_column(c, [
-        ("Manufacturing",
-         "I-beam CNC milled on Haas VF-7/40. Bulkheads waterjet-cut on ProtoMAX. "
-         "Ribs printed on Ender 3 Pro (FDM) and structural parts on Formlabs SLS. "
-         "Balsa skin cut on bandsaw and sanded to NACA profile."),
-        ("Testing Results",
+        ("Manufacturing", [
+         "I-beam CNC milled on Haas VF-7/40.",
+         "Bulkheads waterjet-cut on ProtoMAX.",
+         "Ribs printed on Ender 3 Pro (FDM) and structural parts on Formlabs SLS.",
+         "Balsa skin cut on bandsaw and sanded to NACA profile.",
+        ]),
+        ("Testing Results", [
          "Passed the 97 lbf design load at 3.75 in. deflection, then continued "
-         "loading to failure at 120 lbs. All weight targets were met."),
-        ("Lessons Learned",
-         "Torsional loads must be explicitly modeled in 3D FEA. Physical load paths "
-         "in complex assemblies differ from simplified beam theory predictions, "
-         "especially near joints and web openings."),
+         "loading to failure at 120 lbs.",
+         "All weight targets were met.",
+        ]),
+        ("Lessons Learned", [
+         "Torsional loads must be explicitly modeled in 3D FEA.",
+         "Physical load paths in complex assemblies differ from simplified beam "
+         "theory predictions, especially near joints and web openings.",
+        ]),
     ], start_y=content_top)
 
     draw_footer(c, page_start + 1, total_pages)

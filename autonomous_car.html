@@ -45,9 +45,9 @@
         <h2>Abstract</h2>
         <p>
           This project involved autonomous operation for two Robotics and Intelligent Systems tasks,
-          where a 1/10-scale RC truck was programmed as an AI car using a classroom-built simulator
-          and programmed in Python using Robot Operating System (ROS) to complete two challenging
-          autonomous driving tasks.
+          where a 1/10-scale RC truck running on an NVIDIA Jetson was programmed as an AI car using a
+          classroom-built simulator and Python with the Robot Operating System (ROS) to complete two
+          challenging autonomous driving tasks.
         </p>
         <p>
           <strong>Task 1 — Obstacle Course:</strong> The truck navigated 16 waypoints while avoiding up to 20
@@ -62,7 +62,8 @@
 
         <h2>Implementation &amp; Technical Approach</h2>
         <p>
-          For Task 1, we developed an algorithm operating by assessing each point along our planned path,
+          For Task 1, we implemented an iLQR (iterative Linear Quadratic Regulator) controller with
+          cost-prioritization that assesses each point along our planned path,
           anticipating obstacle positions, and dynamically modifying safety ellipse radii within a threshold
           distance. We applied Gaussian filtering (σ=2 physical, σ=5 simulation) for path smoothness and
           implemented dual-planner safety trajectory cost calculation to handle varying time limitations,
@@ -70,9 +71,9 @@
         </p>
         <p>
           For Task 2, we implemented a two-layer safety system using real physical measurements and
-          a simulator running at 1000 Hz for soft trajectory generation. The system calculated trajectory
-          costs over a varying time horizon, allowing simultaneous user control until the last safe moment
-          the partial intervention was needed.
+          a simulator running at 1000 Hz for soft trajectory generation. An iLQR-based planner calculated
+          trajectory costs over a varying time horizon, allowing simultaneous user control until the last
+          safe moment the partial intervention was needed.
         </p>
 
         <h2>Key Lessons Learned</h2>
