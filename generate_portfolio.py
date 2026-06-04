@@ -548,7 +548,6 @@ def draw_sarr(c, page_start, total_pages):
          "The Babybot used similar sensing for post-deployment navigation.",
         ]),
         ("Result", [
-         "An 11-member team completed the full system in 8 weeks.",
          "The Motherbot navigated the entire course, deployed the Babybot over the "
          "36-inch wall, and the Babybot delivered the med kit to the target zone at "
          "the class final.",
@@ -636,8 +635,7 @@ def draw_gearbox(c, page_start, total_pages):
          "full geometry automatically as inputs change.",
         ]),
         ("Skills Used",
-         "Autodesk Fusion 360 · Parametric Modeling · Bevel Gear Theory · "
-         "Assembly Constraints · Engineering Visualization"),
+         "Autodesk Fusion 360 · Parametric Modeling · Bevel Gear Theory"),
     ], start_y=content_top)
 
     draw_footer(c, page_start, total_pages)
@@ -650,7 +648,7 @@ def draw_gearbox(c, page_start, total_pages):
         "Custom Differential Gearbox — Component Drawings",
         "Mechanical Engineering  ·  CAD", "June 2025")
 
-    iw    = img_col_w()
+    iw    = CW       # component grid now spans the full content width
     rows, cols = 2, 3
     gap   = 6
     cw_img = (iw - gap * (cols - 1)) / cols
@@ -684,14 +682,6 @@ def draw_gearbox(c, page_start, total_pages):
                   anchor="bottom")
         draw_text(c, bx + cw_img / 2, shelf - CAP_DROP, lbl,
                   size=9.5, color=C_MUTED, align="center")
-
-    draw_text_column(c, [
-        ("Parametric Design", [
-         "Every component dimension is driven by top-level gear parameters.",
-         "Changing the module or tooth count propagates through the entire "
-         "assembly without manual rework — a key advantage for iterative design.",
-        ]),
-    ], start_y=content_top)
 
     draw_footer(c, page_start + 1, total_pages)
     c.showPage()
