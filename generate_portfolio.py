@@ -458,24 +458,22 @@ def draw_about(c, total_pages):
 
     c.setStrokeColor(C_RULE); c.setLineWidth(0.5)
     c.line(CX, y, CX + CW, y)
-    y -= 26
+    rule_y = y
 
-    # Contact links — linkedin + portfolio on row 1, email on row 2
+    # Contact links — linkedin + portfolio, vertically centered in the space
+    # between the rule above and the footer rule below.
     half_w    = CW / 2
-    LABEL_W_L = 100   # shorter for LINKEDIN / EMAIL
+    LABEL_W_L = 100   # shorter for LINKEDIN
     LABEL_W_R = 158   # wider for PORTFOLIO WEBSITE (longer label)
 
-    draw_text(c, CX, y, "LINKEDIN", size=11, color=C_MUTED, font="Helvetica-Bold")
-    draw_hyperlink(c, CX + LABEL_W_L, y, "linkedin.com/in/chimwemwe-chinkuyu",
-                   "https://www.linkedin.com/in/chimwemwe-chinkuyu/", size=12)
-    draw_text(c, CX + half_w, y, "PORTFOLIO WEBSITE", size=11, color=C_MUTED, font="Helvetica-Bold")
-    draw_hyperlink(c, CX + half_w + LABEL_W_R, y, "ckcgithub16.github.io/CC_Portfolio/",
-                   "https://ckcgithub16.github.io/CC_Portfolio/index.html", size=12)
-    y -= 20
+    link_y = (rule_y + (CY - 2)) / 2 - 11 * 0.35
 
-    draw_text(c, CX, y, "EMAIL", size=11, color=C_MUTED, font="Helvetica-Bold")
-    draw_hyperlink(c, CX + LABEL_W_L, y, "chimwemwe.chinkuyu16scs@gmail.com",
-                   "mailto:chimwemwe.chinkuyu16scs@gmail.com", size=12)
+    draw_text(c, CX, link_y, "LINKEDIN", size=11, color=C_MUTED, font="Helvetica-Bold")
+    draw_hyperlink(c, CX + LABEL_W_L, link_y, "linkedin.com/in/chimwemwe-chinkuyu",
+                   "https://www.linkedin.com/in/chimwemwe-chinkuyu/", size=12)
+    draw_text(c, CX + half_w, link_y, "PORTFOLIO WEBSITE", size=11, color=C_MUTED, font="Helvetica-Bold")
+    draw_hyperlink(c, CX + half_w + LABEL_W_R, link_y, "ckcgithub16.github.io/CC_Portfolio/",
+                   "https://ckcgithub16.github.io/CC_Portfolio/index.html", size=12)
 
     draw_footer(c, 2, total_pages)
     c.showPage()
