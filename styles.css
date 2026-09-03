@@ -521,6 +521,192 @@ ul { list-style: none; }
 }
 
 /* ===================================================================
+   THESIS PAGE — custom elements
+   Technical, monospace-accented components layered on top of the
+   standard article styles. All colors pull from the site tokens.
+   =================================================================== */
+
+/* Inline code / technical identifiers */
+.article-body code {
+  font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.88em;
+  background: #f2f2f2;
+  padding: 0.1em 0.4em;
+  border-radius: 3px;
+  color: var(--color-heading);
+}
+
+/* Looping demo video, sized like a full-width figure */
+.article-video {
+  width: 100%;
+  margin: 36px 0;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #000;
+  line-height: 0;
+}
+
+.article-video video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Seven-waypoint sequence chip strip */
+.waypoint-seq {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 20px 0;
+  margin: 24px 0 32px;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+}
+
+.waypoint {
+  padding: 6px 12px;
+  background: #f4f4f4;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  color: var(--color-heading);
+  letter-spacing: 0.02em;
+}
+
+/* pick / place — the waypoints where the gripper actuates */
+.waypoint.action {
+  background: var(--color-btn);
+  color: #fff;
+  border-color: var(--color-btn);
+}
+
+.waypoint-arrow {
+  color: var(--color-muted);
+  font-weight: 700;
+}
+
+/* Development phase cards — 2×2 grid on desktop */
+.phase-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 24px 0 32px;
+}
+
+.phase-card {
+  padding: 22px 24px 20px;
+  background: #f7f7f7;
+  border-left: 3px solid var(--color-btn);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.phase-card .phase-num {
+  display: block;
+  font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-muted);
+  margin-bottom: 8px;
+}
+
+/* Override the muted/uppercase article-body h4 for the card titles */
+.phase-card h4 {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-heading);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.phase-card p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Three-column results breakdown */
+.results-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 24px 0 32px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.results-cell {
+  padding: 22px 20px;
+  border-right: 1px solid var(--color-border);
+}
+
+.results-cell:last-child {
+  border-right: none;
+}
+
+.results-cell .config {
+  font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-muted);
+  margin-bottom: 8px;
+}
+
+.results-cell .rate {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-heading);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.results-cell .detail {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Tall/portrait figures: constrain width and center so they don't
+   dominate the body column */
+.article-img--portrait {
+  max-width: 440px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Side-by-side figure pair (stacks on mobile) */
+.figure-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 36px 0;
+}
+
+.figure-pair .article-img {
+  margin: 0;
+}
+
+/* Thesis custom elements collapse to single column on mobile */
+@media (max-width: 640px) {
+  .phase-grid { grid-template-columns: 1fr; }
+
+  .figure-pair { grid-template-columns: 1fr; }
+
+  .results-row { grid-template-columns: 1fr; }
+
+  .results-cell {
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .results-cell:last-child { border-bottom: none; }
+}
+
+/* ===================================================================
    ABOUT PAGE
    =================================================================== */
 .about-section { padding: 56px 0 0; }

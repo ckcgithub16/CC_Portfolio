@@ -7,7 +7,9 @@
       "Bash(cmd *)",
       "Bash(python -c \"import fitz; print\\('pymupdf', fitz.__doc__\\)\")",
       "Bash(python -c \"import pdf2image; print\\('pdf2image ok'\\)\")",
-      "Bash(python -c ' *)"
+      "Bash(python -c ' *)",
+      "Read(//c/Users/ckc15/Downloads/thesis-webpage-v2/**)",
+      "Bash(sed -n '/\\\\.waypoint-seq/,/^  <\\\\/style>/p' thesis-mockup.html)"
     ]
   }
 }

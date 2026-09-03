@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autonomous Robotic Assembly of Lincoln Log Structures | Chimwemwe Chinkuyu</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="site-nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="site-nav__logo">CHIMWEMWE'S PORTFOLIO</a>
+      <button class="nav-toggle" aria-label="Toggle menu" onclick="this.closest('header').querySelector('.site-nav__links').classList.toggle('is-open')">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="2" y1="6" x2="20" y2="6"/><line x1="2" y1="11" x2="20" y2="11"/><line x1="2" y1="16" x2="20" y2="16"/>
+        </svg>
+      </button>
+      <nav>
+        <ul class="site-nav__links">
+          <li><a href="index.html" class="active">PROJECTS</a></li>
+          <li><a href="about.html">ABOUT</a></li>
+          <li><a href="resume.html">RESUME</a></li>
+          <li><a href="https://www.linkedin.com/in/chimwemwe-chinkuyu/" target="_blank" rel="noopener" aria-label="LinkedIn" class="nav-linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <div class="article-header">
+        <span class="article-category">Mechanical and Aerospace Engineering</span>
+        <h1 class="article-title" style="max-width:none;">Autonomous Robotic Assembly of Multi-Layer Lincoln Log Structures</h1>
+        <p class="article-date">September 2025 – April 2026</p>
+      </div>
+
+      <div class="article-hero">
+        <img src="images/thesis/final-structure.jpg" alt="Completed two-layer Lincoln Log assembly on the 3D-printed calibrated base">
+      </div>
+
+      <div class="article-body">
+
+        <h2>Abstract</h2>
+        <p>
+          This senior thesis develops and validates an autonomous robotic assembly system that
+          constructs multi-layer Lincoln Log structures using a UR3 collaborative robotic arm. The
+          system integrates four subsystems into a single end-to-end pipeline: a parametric toolpath
+          generator built in Grasshopper, a Cartesian motion planner running on COMPAS FAB and ROS,
+          an execution controller that synchronizes joint motion with pneumatic gripper commands, and
+          a set of custom 3D-printed mechanical fixtures (a gravity-fed dispenser, a calibrated
+          structural base, and gripper covers) that constrain the assembly environment in place of
+          runtime sensing.
+        </p>
+        <p>
+          The completed system was validated across single-layer, two-layer, and three-layer builds,
+          with five trials at each configuration. Single-layer assembly succeeded on every trial. Two-
+          and three-layer assembly succeeded the majority of the time, with observed failures traced
+          to two distinct root causes: a physical offset between the gripper cover centerline and
+          finger contact point on odd layers, and an RPC proxy connection-pool exhaustion at the sixth
+          log placement on the three-layer configuration. Both failure modes were diagnosed,
+          characterized, and either resolved or documented as future work.
+        </p>
+
+        <h2>Motivation</h2>
+        <p>
+          The original goal of this research was human-robot collaborative assembly in a construction
+          context: a system in which a human and a robot would jointly build a structure, sharing the
+          workspace and coordinating their actions. Before that collaboration becomes meaningful, the
+          robot has to be able to reliably perform its half of the task on its own. This thesis
+          addresses that prerequisite. It develops the autonomous-robot half of the eventual
+          human-robot system, leaving the collaboration layer to follow once the autonomous foundation
+          is solid.
+        </p>
+        <p>
+          A second decision shapes the rest of the work: the system uses no cameras, force sensors, or
+          runtime feedback. This is not a rejection of perception in principle. It is a practical
+          choice. Lincoln Logs are dimensionally uniform, and the assembly workspace is small and
+          fully controllable. Under those conditions, constraining the environment with precise
+          mechanical fixtures and precomputed trajectories produces consistent, accurate results
+          without the computational overhead of real-time sensing and adaptive control. The thesis
+          treats this as a hypothesis to test: how well does a fully deterministic, perception-free
+          pipeline perform when the environment has been deliberately engineered to support it, and
+          where do its limits show up?
+        </p>
+        <p>
+          Lincoln Logs were selected as the assembly task for three reasons. Their uniform geometry
+          isolates system-level challenges (calibration, fixturing, gripper synchronization) from
+          material variability. Their interlocking, alternating-layer construction forces the system
+          to confront cumulative-error problems that single-component pick-and-place benchmarks do not
+          capture. And their visual recognizability makes the task legible to non-technical audiences,
+          which matters for communicating results across the engineering and architecture communities
+          that this research draws from.
+        </p>
+
+        <h3>Research Question Decomposition</h3>
+        <figure class="article-img">
+          <img src="images/thesis/system-architecture.png" alt="Diagram decomposing the research question into four engineering subsystems: motion planning, grasp planning, deterministic part feeding, and structural stability">
+        </figure>
+
+        <h2>System Overview</h2>
+        <p>
+          The system is structured as four cooperating subsystems. A parametric toolpath generator
+          takes a small set of geometric inputs (a pick plane, an initial placement plane, a layer
+          count, and a trajectory resolution) and produces the end-effector frames required for every
+          log placement in the structure. A Cartesian motion planner converts those frames into
+          collision-aware joint trajectories using COMPAS FAB and MoveIt!. An execution controller
+          dispatches those trajectories to the UR3 over a persistent RPC connection while interleaving
+          pneumatic gripper commands at precise segment boundaries. Finally, the physical hardware
+          (the dispenser, the calibrated base, and the gripper covers) does the work that runtime
+          sensing would normally do: presenting each log at a known pose, anchoring the assembly
+          workspace to a fixed reference, and matching the gripper's grasp envelope to log diameter.
+        </p>
+        <p>
+          Every log placement follows the same seven-waypoint trajectory. The arm starts at a rest
+          pose, descends vertically to the pick plane, retracts vertically, traverses an arc over the
+          structure, descends vertically to the placement plane, retracts vertically, and returns to
+          rest. The vertical descent and retraction segments exist to guarantee that the gripper
+          enters and exits each interaction point along the z-axis, which is necessary for both
+          reliable pickup from the dispenser and clean release at the placement notch.
+        </p>
+
+        <div class="waypoint-seq" aria-label="Seven-waypoint trajectory sequence">
+          <span class="waypoint">rest</span>
+          <span class="waypoint-arrow">&rarr;</span>
+          <span class="waypoint action">pick</span>
+          <span class="waypoint-arrow">&rarr;</span>
+          <span class="waypoint">rest</span>
+          <span class="waypoint-arrow">&rarr;</span>
+          <span class="waypoint">align</span>
+          <span class="waypoint-arrow">&rarr;</span>
+          <span class="waypoint action">place</span>
+          <span class="waypoint-arrow">&rarr;</span>
+          <span class="waypoint">align</span>
+          <span class="waypoint-arrow">&rarr;</span>
+          <span class="waypoint">rest</span>
+        </div>
+
+        <h3>Pick-and-Place Cycle in Operation</h3>
+        <!-- ============================================================
+             VIDEO PLACEHOLDER — continuously looping robot recording.
+             Replace the src below with the path to your video file
+             (e.g. videos/thesis/pick-place-loop.mp4). The clip autoplays
+             muted and loops continuously; controls are provided so the
+             viewer can pause it.
+             ============================================================ -->
+        <figure class="article-video">
+          <video
+            poster="images/thesis/robot-placing-log.jpg"
+            autoplay
+            loop
+            muted
+            playsinline
+            controls
+            preload="metadata"
+          >
+            <source src="REPLACE_WITH_VIDEO_PATH.mp4" type="video/mp4">
+            Your browser doesn't support embedded video.
+          </video>
+        </figure>
+
+        <h2>Software Architecture</h2>
+        <p>
+          The software is organized as three independent components in the Grasshopper visual
+          programming environment, each implemented as a custom GhPython script. The components
+          communicate through Grasshopper's native DataTree structure, which serves as the shared data
+          format between geometry generation, motion planning, and execution. This separation makes
+          each component independently testable and replaceable, an important property given how much
+          each one changed during development.
+        </p>
+
+        <h3>Parametric Toolpath Generator</h3>
+        <p>
+          The toolpath generator accepts five inputs (a pick plane, an initial placement plane, a
+          layer count, a starting layer index, and a trajectory resolution) and computes the
+          end-effector pose at every waypoint for every log placement in the structure. It handles
+          alternating 90&deg; layer orientations, computes NURBS arc trajectories that clear
+          previously placed logs, and enforces strictly vertical approach and departure at the pick
+          and placement planes. All geometric parameters (the 76.3 mm log-axis spacing, the 18 mm
+          layer height, the X and Y correction offsets applied to odd layers) are derived from direct
+          measurements of Lincoln Log piece geometry and are parameterized at the top of the script so
+          they can be tuned without rewriting any downstream logic.
+        </p>
+        <p>
+          The generator outputs a hierarchical DataTree indexed by log number and trajectory segment.
+          Indexing the trees this way (rather than as a flat list of poses) makes downstream motion
+          planning and gripper command dispatch straightforward: each segment maps directly to a
+          planning call, and gripper events attach naturally to segment boundaries.
+        </p>
+
+        <h3>Generated Waypoints and Planned Trajectory</h3>
+        <figure class="article-img">
+          <img src="images/thesis/trajectory-waypoints.png" alt="Generated waypoint planes for a two-layer build, visualized in Rhino">
+        </figure>
+        <figure class="article-img">
+          <img src="images/thesis/trajectory-planned.png" alt="Cartesian motion plan visualized in Rhino, showing the joint-space trajectory through all waypoints">
+        </figure>
+
+        <h3>Cartesian Motion Planner</h3>
+        <p>
+          The motion planner is a GhPython component that iterates over the DataTree of waypoints and
+          calls COMPAS FAB's <code>plan_cartesian_motion</code> for each of the four trajectory
+          segments per log (rest-to-pick, pick-to-align, align-to-place, place-to-rest). Cartesian
+          planning was chosen over joint-space planning because the task requires the gripper to
+          follow a controlled arc over previously placed logs; joint-space planning produces
+          trajectories that satisfy start and end poses but give no guarantee on the path between them.
+          The output is a set of joint-space trajectories suitable for direct execution on the UR3,
+          with collision checking handled by MoveIt! against the Rhino-defined workspace geometry.
+          Every planned trajectory is visualized in Rhino before any physical run, which made it
+          possible to catch a number of issues (inverted z-axes, missed waypoints, geometry-violating
+          paths) before sending any commands to the robot.
+        </p>
+
+        <h3>Execution Controller</h3>
+        <p>
+          The execution controller dispatches the planned joint trajectories to the physical UR3 and
+          interleaves pneumatic gripper commands at precise segment boundaries. The gripper closes at
+          the end of the rest-to-pick segment, after the arm has completed its vertical descent to the
+          dispenser pickup location, and opens at the end of the align-to-place segment, after the arm
+          has completed its vertical descent to the placement notch. Each gripper actuation is followed
+          by an empirically determined 500 ms dwell to allow the pneumatic system to fully open or
+          close before the next motion segment begins. Communication with the UR3 runs over COMPAS
+          FAB's RPC proxy, which is instantiated once at the start of the build and reused for every
+          subsequent command (a change made after diagnosing connection-pool exhaustion in an earlier
+          version that instantiated a new proxy for every gripper actuation).
+        </p>
+
+        <h2>Mechanical Design</h2>
+        <p>
+          The mechanical hardware does the work that runtime sensing would otherwise have to do. Three
+          custom-fabricated components define the physical environment: a gravity-fed dispenser that
+          presents each log at a fixed pose, a 3D-printed structural base that constrains the first
+          layer to a known position, and a pair of gripper covers that adapt the off-the-shelf
+          pneumatic gripper to Lincoln Log diameter. All three were modeled in Fusion 360 and Rhino
+          and 3D-printed in PLA on a Bambu Labs X1 Carbon.
+        </p>
+
+        <h3>Gravity-Fed Log Dispenser</h3>
+        <p>
+          The dispenser is the part of the system that most directly substitutes for visual sensing:
+          it guarantees that every log presented to the gripper is in the same location and
+          orientation, so the robot does not need to find or recognize the log. The final design is a
+          compound-angle channel inclined at 15&deg; that holds a stack of logs against a stop at the
+          bottom of the slope. When the gripper picks the bottom log, the next log slides into place
+          under gravity, ready for the next pick. The presentation pose is repeatable to within the
+          manufacturing tolerance of the channel itself.
+        </p>
+        <p>
+          The dispenser went through one significant design pivot. The first concept was a
+          spring-raised magazine: a vertical column with a spring-loaded base that pushed the stack
+          upward, presenting the top log to the gripper. A spring constant analysis showed that
+          supporting a stack of even a dozen logs would require either an impractically long spring
+          travel (more than the available vertical clearance under the robot) or a parallel
+          arrangement of twelve or more springs to keep the lift force within the working range across
+          the full stack. The gravity-fed design eliminates the spring entirely and achieves the same
+          repeatable presentation pose using only the geometry of the channel and the angle of
+          inclination.
+        </p>
+
+        <h3>Final Dispenser Design</h3>
+        <figure class="article-img">
+          <img src="images/thesis/dispenser-final.jpg" alt="Final gravity-fed dispenser design: a compound-angle channel inclined at 15 degrees holding a stack of Lincoln Logs">
+        </figure>
+
+        <h3>Structural Base</h3>
+        <p>
+          The base is a flat 3D-printed PLA plate with four molded slots that capture the ends of the
+          first-layer logs. The slot center-to-center spacing is 76.3 mm, which is the notch-to-notch
+          distance on the Lincoln Log pieces used in this thesis. This precise spacing is what allows
+          the system to bypass first-layer calibration: once the base is positioned on the work surface
+          and the robot's pick and placement planes are registered against it, every subsequent log
+          placement uses the base as a fixed spatial reference. The base also acts as a
+          session-to-session calibration aid; the robot is taught the base position in free-drive mode
+          at the start of each session and the rest of the workspace is derived from it.
+        </p>
+        <p>
+          The first version of the base failed for two reasons that surfaced during physical testing.
+          First, the 76.3 mm dimension had been applied to the inner faces of the slot walls rather
+          than to the slot centerlines, putting the slots too far apart by roughly one slot-wall
+          thickness. The error was visible in the resulting build (the first layer sat with audible
+          gaps at the joints) but not obvious in the CAD model until the dimensions were re-checked
+          against axial centerlines. Second, the log supports were tall enough to interfere with the
+          gripper as it descended to place each log. Because the gripper holds every log by its
+          cylindrical sides, the fingers themselves need to travel below the top of the support walls
+          during placement, and the v1 walls were too tall for that clearance. The v2 base fixes both
+          problems: the slots are placed on accurate 76.3 mm centerlines, and the support walls are
+          lowered enough to give the gripper fingers vertical clearance during every placement.
+        </p>
+
+        <h3>Final Structural Base Design</h3>
+        <figure class="article-img">
+          <img src="images/thesis/base-v2-cad.png" alt="Final structural base CAD model with corrected slot spacing on 76.3 mm centerlines and lowered support walls for gripper clearance">
+        </figure>
+
+        <h3>Pneumatic Gripper System</h3>
+        <p>
+          The gripper is a spring-return parallel pneumatic gripper actuated by two solenoid valves
+          wired to the UR3's 24V digital I/O outputs. The two-solenoid configuration provides positive
+          control over both the open and closed states; a single-solenoid arrangement would rely on
+          spring force alone for one direction and would not respond to commands at the same rate in
+          both directions.
+        </p>
+        <p>
+          Off the shelf, the gripper's closed inter-finger gap was wider than the Lincoln Log
+          diameter, which meant that closing the gripper on a log produced an unreliable friction grip
+          rather than a positive-stop grasp. The solution was a pair of custom 3D-printed covers (2 mm
+          wall thickness, PLA) that slide onto the gripper's pads and bring the closed gap down to log
+          diameter. Repurposed eyeglass nose pads, which have adhesive on one side, attach to the
+          inside face of each cover to provide anti-slip compliance against the log surface. The covers
+          install without modifying the gripper itself, which made them easy to iterate during testing.
+        </p>
+
+        <h3>Gripper with Custom Covers</h3>
+        <figure class="article-img">
+          <img src="images/thesis/gripper-covers-installed.jpg" alt="UR3 end-effector with the pneumatic gripper and custom 3D-printed covers installed">
+        </figure>
+
+        <h2>Iterative Development</h2>
+        <p>
+          The system was built in four development phases. Each phase added a capability the previous
+          one lacked, and each was driven by a specific limitation observed in physical testing rather
+          than by a predetermined plan. The phases are summarized below, with a representative case
+          study from each described in more detail after.
+        </p>
+
+        <div class="phase-grid">
+          <div class="phase-card">
+            <span class="phase-num">Phase 01</span>
+            <h4>Arc-Path Generator</h4>
+            <p>
+              Initial single-arc trajectory from pick to place. Failed because the arc's tangent at the
+              endpoints was not vertical, making it incompatible with the dispenser's required
+              straight-down pickup.
+            </p>
+          </div>
+          <div class="phase-card">
+            <span class="phase-num">Phase 02</span>
+            <h4>Seven-Waypoint Executor</h4>
+            <p>
+              Introduced rest and align planes to guarantee vertical descent and retraction. Diagnosed
+              and corrected an inverted z-axis on the placement plane using <code>plane.Flip()</code>.
+            </p>
+          </div>
+          <div class="phase-card">
+            <span class="phase-num">Phase 03</span>
+            <h4>Gripper-Integrated Calibrated System</h4>
+            <p>
+              Split the pick-to-place segment into two segments so the gripper opens at the placement
+              notch rather than 50 mm above it. Corrected a 9 mm TCP coordinate frame offset between
+              the controller and the trajectory generator.
+            </p>
+          </div>
+          <div class="phase-card">
+            <span class="phase-num">Phase 04</span>
+            <h4>Persistent Multi-Layer System</h4>
+            <p>
+              Added <code>X_ADJUST</code> and <code>Y_ADJUST</code> correction terms to compensate for
+              the gripper-cover centerline offset on odd layers. Refactored the RPC proxy to a single
+              persistent instance.
+            </p>
+          </div>
+        </div>
+
+        <h3>Final Four-Segment Trajectory Architecture</h3>
+        <div class="figure-pair">
+          <figure class="article-img">
+            <img src="images/thesis/trajectory-waypoints.png" alt="Generated waypoint planes for a two-layer build, visualized in Rhino">
+          </figure>
+          <figure class="article-img">
+            <img src="images/thesis/trajectory-planned.png" alt="Full Cartesian motion plan visualized in Rhino, showing the joint-space trajectory through all waypoints">
+          </figure>
+        </div>
+
+        <h3>Case Study: Splitting the Trajectory at the Align Plane</h3>
+        <p>
+          In the Phase 2 architecture, each log placement consisted of three trajectory segments
+          (rest-to-pick, pick-to-place, place-to-rest) with the align plane treated as an interior
+          waypoint of the pick-to-place segment. In testing, this produced a repeatable failure: the
+          gripper opened too early, releasing the log roughly 50 mm above the placement notch rather
+          than seating it into the notch. The log fell, the orientation drifted, and the placement was
+          never reliable.
+        </p>
+        <p>
+          The cause was the way the execution controller dispatched gripper commands. The gripper-open
+          command was attached to the end of the pick-to-place segment, but in practice the controller
+          fired it when the arm reached the align waypoint embedded inside that segment, not when the
+          segment fully completed. The fix was to split pick-to-place into two independent segments
+          (pick-to-align and align-to-place) and to attach the gripper-open command to the end of the
+          align-to-place segment. This made the gripper release contingent on completion of an explicit
+          vertical-descent segment, which the controller dispatched correctly. The four-segment-per-log
+          architecture from Phase 2 onward is the direct result of this fix.
+        </p>
+
+        <h3>Case Study: Odd-Layer Translation and Rotation Correction</h3>
+        <p>
+          The first two-layer trials produced a clear pattern: even-layer logs (layers 0 and 2) were
+          placed reliably, but odd-layer logs (layer 1) were placed with a combined translation and
+          rotation offset relative to the structure. The misalignment was consistent across trials,
+          which pointed to a systematic cause rather than random gripper variation.
+        </p>
+        <p>
+          The root cause was a physical offset between the geometric center of the gripper covers and
+          the contact line of the underlying gripper fingers. When the arm rotated 90&deg; between even
+          and odd layers, this offset rotated with it, shifting the effective pick point by a few
+          millimeters in both X and Y. The correction was two scalar adjustment terms
+          (<code>X_ADJUST</code> and <code>Y_ADJUST</code>) applied to the odd-layer placement plane
+          translations. Once these were tuned, the odd-layer placements moved into nominal alignment
+          and the two-layer success rate improved substantially. The same correction strategy carries
+          forward to three-layer builds, where it continues to work cleanly.
+        </p>
+
+        <h2>Testing and Results</h2>
+        <p>
+          The completed system was validated across three assembly configurations (single-layer,
+          two-layer, and three-layer) with five trials at each configuration. Each trial was recorded
+          with per-log outcome codes that capture the placement status of every log (correctly placed,
+          incorrectly placed, dropped during transit, or dispatch failed). Pick success and placement
+          success are reported separately because they fail for different reasons and respond to
+          different fixes.
+        </p>
+
+        <div class="results-row">
+          <div class="results-cell">
+            <p class="config">Single-Layer &middot; 2 Logs</p>
+            <p class="rate">100%</p>
+            <p class="detail">
+              All five trials placed correctly. Confirms the calibration fixes from Phase 3 and
+              establishes the operational baseline.
+            </p>
+          </div>
+          <div class="results-cell">
+            <p class="config">Two-Layer &middot; 4 Logs</p>
+            <p class="rate">~75%</p>
+            <p class="detail">
+              Failures concentrated on the first odd-layer log. Diagnosed as gripper-cover centerline
+              offset and corrected mid-experiment with the X and Y adjustment terms.
+            </p>
+          </div>
+          <div class="results-cell">
+            <p class="config">Three-Layer &middot; 6 Logs</p>
+            <p class="rate">~83%</p>
+            <p class="detail">
+              First five logs placed correctly on every trial; execution froze before the sixth log.
+              Diagnosed as RPC proxy connection-pool exhaustion.
+            </p>
+          </div>
+        </div>
+
+        <p>
+          Pick success was 100% across all three configurations. Every observed failure was a placement
+          failure, not a pick failure, which validates the dispenser design: the deterministic
+          part-feeding subsystem worked exactly as intended on every log of every trial.
+        </p>
+        <p>
+          Every placement failure exhibited combined rotational and translational (R+T) misalignment.
+          The same gripper-opening dynamics that introduced lateral force on release also introduced
+          torque, so the two failure modes are not independent. Reporting placement outcomes with a
+          single scalar deviation would have missed this coupling; the per-log outcome-code scheme used
+          here captures both rotation and translation directly.
+        </p>
+
+        <h3>R+T Misalignment at the Notch</h3>
+        <figure class="article-img article-img--portrait">
+          <img src="images/thesis/failure-rt-misalignment.jpg" alt="Close-up of an odd-layer placement showing combined rotational and translational misalignment at the notch joint">
+        </figure>
+
+        <p>
+          The headline finding of the testing program is that deterministic, perception-free assembly
+          is highly reliable within a bounded operational envelope, and that its failure modes are
+          systematic rather than random. Once a placement is even slightly off, subsequent placements
+          on top of it inherit that offset with no mechanism to correct, and the cumulative error sets
+          a ceiling on how many layers can be built before failure becomes likely. The thesis treats
+          this as a characterization of the operational envelope of the approach, not as a verdict on
+          it: the approach is appropriate for small, controlled assemblies and would need to be paired
+          with sensing or compliance for larger ones.
+        </p>
+
+        <h2>Future Work</h2>
+        <p>
+          Four extensions of this thesis follow directly from the limits identified during testing.
+        </p>
+        <p>
+          <strong>State-based execution synchronization.</strong> The current controller uses
+          empirically tuned <code>time.sleep()</code> dwells between motion segments and gripper
+          actuations. Replacing these with completion-confirmation queries from the robot controller
+          and pneumatic system would eliminate timing-parameter sensitivity, reduce overall cycle time,
+          and remove an entire category of failure modes that appear as the system is moved between
+          work surfaces or pneumatic supplies.
+        </p>
+        <p>
+          <strong>Force-torque sensing for compliant placement.</strong> The most direct remedy for the
+          R+T failure mode is compliant insertion. A force-torque sensor at the wrist would let the
+          robot detect contact, correct small height deviations on contact, and recover from minor
+          odd-layer offsets without re-calibration. This would extend the operational envelope of the
+          system to taller structures without requiring full perception.
+        </p>
+        <p>
+          <strong>Generalization to multi-notch Lincoln Log pieces.</strong> The current system is
+          restricted to the two-notch log pieces used throughout this thesis. The toolpath generator
+          and trajectory planner make several assumptions that depend on this restriction (uniform
+          piece length, fixed notch spacing, identical orientation options). Extending the parametric
+          generator to handle the full set of Lincoln Log piece types (longer logs, shorter logs,
+          gables, roof pieces, doors, windows) would let the system build a wider range of structures,
+          including the canonical log cabin shape with a peaked roof. This is the most natural next step
+          from the current point: the planning and execution stack does not need to change, only the
+          geometric input layer.
+        </p>
+        <p>
+          <strong>Human-robot collaboration.</strong> With reliable autonomous assembly established,
+          the original collaborative vision becomes tractable. The rest pose at the end of every
+          trajectory is a natural yield point at which a human could take over; the parametric
+          trajectories are already interruptible between segments. The remaining work is the safety and
+          intent-detection layer that mediates between autonomous and collaborative modes, which is its
+          own research problem and the most ambitious of the four extensions.
+        </p>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 Chimwemwe Chinkuyu</p>
+  </footer>
+
+</body>
+</html>
