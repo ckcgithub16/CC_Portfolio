@@ -840,6 +840,25 @@ ul { list-style: none; }
   color: var(--color-text);
 }
 
+/* Two-column course list for the resume's Technical Coursework section */
+.course-list {
+  columns: 2;
+  column-gap: 48px;
+  list-style: disc inside;
+  line-height: 1.8;
+  font-size: 0.96rem;
+}
+
+.course-list li {
+  margin-bottom: 4px;
+  break-inside: avoid;
+  padding-left: 2px;
+}
+
+@media (max-width: 640px) {
+  .course-list { columns: 1; }
+}
+
 /* ===================================================================
    CONTACT FORM (shared, used on about page too)
    =================================================================== */
