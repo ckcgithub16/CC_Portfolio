@@ -186,10 +186,11 @@ ul { list-style: none; }
 
 .download-link svg { flex-shrink: 0; }
 
-/* 10-column CSS grid */
+/* 20-column CSS grid (finer resolution allows a 45/55 top row) */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(20, 1fr);
+  grid-template-rows: 298px;   /* first row (thesis + SARR): tuned height above the 184px auto-row */
   grid-auto-rows: 184px;
   gap: 10px;
 }
@@ -198,19 +199,23 @@ ul { list-style: none; }
   position: relative;
   overflow: hidden;
   background: #f0f0f0;
-  grid-column: span 4;
+  grid-column: span 8;
   display: block;
   cursor: pointer;
 }
 
-/* SAR Robot hero: full width (10/10 cols) */
-.project-card--full   { grid-column: span 10; }
+/* Full width (20/20 cols) */
+.project-card--full   { grid-column: span 20; }
 
-/* Wide cards: 6/10 cols = 60% */
-.project-card--wide   { grid-column: span 6; }
+/* Wide cards: 12/20 cols = 60% */
+.project-card--wide   { grid-column: span 12; }
 
-/* Bottom pairs: half width (5/10 cols) */
-.project-card--half   { grid-column: span 5; }
+/* Half width (10/20 cols) = 50% */
+.project-card--half   { grid-column: span 10; }
+
+/* Top row split: SARR 45% (9/20), thesis 55% (11/20) */
+.project-card--w45    { grid-column: span 9; }
+.project-card--w55    { grid-column: span 11; }
 
 .project-card img {
   width: 100%;
@@ -895,7 +900,9 @@ a.resume-entry:hover li {
   .project-card,
   .project-card--full,
   .project-card--wide,
-  .project-card--half { grid-column: span 1; }
+  .project-card--half,
+  .project-card--w45,
+  .project-card--w55 { grid-column: span 1; }
 
   .about-intro {
     grid-template-columns: 1fr;
@@ -938,13 +945,16 @@ a.resume-entry:hover li {
 
   .projects-grid {
     grid-template-columns: 1fr;
+    grid-template-rows: none;   /* single column: keep all tiles uniform height */
     grid-auto-rows: 176px;
   }
 
   .project-card,
   .project-card--full,
   .project-card--wide,
-  .project-card--half { grid-column: span 1; }
+  .project-card--half,
+  .project-card--w45,
+  .project-card--w55 { grid-column: span 1; }
 
   .article-title { font-size: 1.6rem; }
 

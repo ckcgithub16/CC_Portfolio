@@ -47,7 +47,7 @@
           </a>
         </div>
 
-        <!-- 6-col grid layout:
+        <!-- 20-col grid layout (spans out of 20):
 
 
 
@@ -73,29 +73,38 @@
 
 
 
-        Rows 1-2: sarr(4, spans 2 rows) | psi_omega(2, row 1) / miscellaneous(2, row 2)
-             Row 3:    diff_gearbox(4), autonomous_car(2)
-             Row 4:    seam_carver(2), airfoil(4)
-             Row 5:    entertainment_stand(3), checkers(3)
-             Row 6:    ventilator(3), tarapl(3)
+             Row 1: thesis(9) | sarr(11)
+             Row 2: diff_gearbox(12) | psi_omega(8)
+             Row 3: autonomous_car(10) | miscellaneous(10)
+             Row 4: seam_carver(8) | airfoil(12)
+             Row 5: entertainment_stand(10) | checkers(10)
+             Row 6: ventilator(10) | tarapl(10)
         -->
         <div class="projects-grid">
 
-          <!-- Senior thesis: full-width feature hero (10/10 cols) -->
-          <a class="project-card project-card--full" href="thesis.html">
-            <img src="images/thesis/final-structure.jpg"
+          <!-- Row 1: Senior Thesis (45%) + SARR (55%) -->
+          <a class="project-card project-card--w45" href="thesis.html">
+            <img src="images/thesis/thesis_tile.JPG"
                  alt="Autonomous Robotic Assembly of Lincoln Log Structures">
             <div class="project-card__overlay">
               <span class="project-card__title">Senior Thesis: Autonomous Robotic Assembly of Multi-Layer Lincoln Log Structures</span>
             </div>
           </a>
 
-          <!-- Rows 1-2: SARR (4 cols × 2 rows) + two small cards filling right 2 cols -->
-          <a class="project-card project-card--wide" href="sarr.html" style="grid-row: span 2;">
+          <a class="project-card project-card--w55" href="sarr.html">
             <img src="images/sarr/motherbot_deploying_babybot.JPG"
                  alt="Search and Rescue Robot">
             <div class="project-card__overlay">
               <span class="project-card__title">Design &amp; Manufacturing of a Search and Rescue Robot</span>
+            </div>
+          </a>
+
+          <!-- Row 2: Custom Differential Gearbox + Heat Transfer Simulation -->
+          <a class="project-card project-card--wide" href="diff_gearbox.html">
+            <img src="images/gear_box/assembly_side.png"
+                 alt="Custom Differential Gearbox">
+            <div class="project-card__overlay">
+              <span class="project-card__title">Custom Differential Gearbox</span>
             </div>
           </a>
 
@@ -107,7 +116,8 @@
             </div>
           </a>
 
-          <a class="project-card" href="autonomous_car.html">
+          <!-- Row 3: Self-Driving RC Truck + Miscellaneous CAD Designs (equal, 50/50) -->
+          <a class="project-card project-card--half" href="autonomous_car.html">
             <img src="images/autonomous_car/autonomous_car_main.jpeg"
                  alt="Self-Driving RC Truck">
             <div class="project-card__overlay">
@@ -115,16 +125,7 @@
             </div>
           </a>
 
-          <!-- Row 3 -->
-          <a class="project-card project-card--wide" href="diff_gearbox.html">
-            <img src="images/gear_box/assembly_side.png"
-                 alt="Custom Differential Gearbox">
-            <div class="project-card__overlay">
-              <span class="project-card__title">Custom Differential Gearbox</span>
-            </div>
-          </a>
-
-          <a class="project-card" href="miscellaneous.html">
+          <a class="project-card project-card--half" href="miscellaneous.html">
             <img src="images/miscellaneous/lathe_tool2.png"
                  alt="Miscellaneous CAD Designs">
             <div class="project-card__overlay">
