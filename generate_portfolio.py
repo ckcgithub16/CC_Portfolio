@@ -424,11 +424,11 @@ def draw_about(c, total_pages):
     # Technical skills — spans full content width
     skills = {
         "CAD / CAM": [
-            "PTC Creo (incl. FEA)", "Fusion 360", "Onshape", "AutoCAD",
+            "PTC Creo (incl. FEA)", "Fusion 360", "Onshape", "AutoCAD", "SolidWorks",
         ],
         "Programming & Robotics": [
             "Python", "MATLAB", "Java", "C", "ROS",
-            "COMPAS FAB", "UR-RTDE", "PID control",
+            "COMPAS FAB", "UR-RTDE", "PID control", "iLQR",
         ],
         "Fabrication": [
             "3D Printing (FDM, SLA, SLS)", "Manual & CNC Machining",
