@@ -9,7 +9,8 @@
       "Bash(python -c \"import pdf2image; print\\('pdf2image ok'\\)\")",
       "Bash(python -c ' *)",
       "Read(//c/Users/ckc15/Downloads/thesis-webpage-v2/**)",
-      "Bash(sed -n '/\\\\.waypoint-seq/,/^  <\\\\/style>/p' thesis-mockup.html)"
+      "Bash(sed -n '/\\\\.waypoint-seq/,/^  <\\\\/style>/p' thesis-mockup.html)",
+      "Bash(python *)"
     ]
   }
 }

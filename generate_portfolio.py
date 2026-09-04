@@ -928,6 +928,9 @@ def draw_airfoil(c, page_start, total_pages):
          "Ribs printed on Ender 3 Pro (FDM) and structural parts on Formlabs SLS.",
          "Balsa skin cut on bandsaw and sanded to NACA profile.",
         ]),
+        ("My Contribution",
+         "Designed and performed FEA on the I-beam · Bulkhead material selection "
+         "· Airfoil assembly"),
         ("Testing Results", [
          "Passed the 97 lbf design load at 3.75 in. deflection, then continued "
          "loading to failure at 120 lbs.",
@@ -944,22 +947,303 @@ def draw_airfoil(c, page_start, total_pages):
     c.showPage()
 
 # ─────────────────────────────────────────────────────────────────────────────
+# PROJECT 0 — SENIOR THESIS  (3 pages)
+#   Page 1 — overview.  Page 2 — software pipeline.  Page 3 — mechanical
+#   components & results.  Image-forward like the other project pages, with the
+#   body text kept short enough per page to stay at the standard 12 pt size.
+# ─────────────────────────────────────────────────────────────────────────────
+THESIS_CAT  = "Mechanical Engineering  ·  Software Development"
+THESIS_DATE = "Sep 2025 – Apr 2026"
+
+def img_aspect(path):
+    """Width / height of an image, or 1.0 if it can't be read."""
+    try:
+        with PILImage.open(path) as im:
+            return im.size[0] / im.size[1]
+    except Exception:
+        return 1.0
+
+def _equal_height_row(c, y_top, imgs, gap=12, cap_h=15):
+    """Draw a row of images all at the SAME height (natural, differing widths),
+    left-aligned and spanning the image column width, with captions beneath.
+    `imgs` is a list of (path, caption) tuples.  Returns the y just below the
+    caption band so callers can stack the next row underneath."""
+    iw  = img_col_w()
+    asp = [img_aspect(os.path.join(BASE, p)) for p, _ in imgs]
+    h   = (iw - gap * (len(imgs) - 1)) / sum(asp)   # equal height, full width
+    row_bot = y_top - h
+    x = CX
+    for (path, cap), a in zip(imgs, asp):
+        w = h * a
+        fit_image(c, os.path.join(BASE, path), x, row_bot, w, h, anchor="bottom")
+        draw_text(c, x + w / 2, row_bot - 11, cap, size=9.5, color=C_MUTED,
+                  align="center")
+        x += w + gap
+    return row_bot - cap_h
+
+def _thesis_quad(c, content_top, imgs):
+    """Thesis image column: a 2×2 block, top-anchored under the title.  Both
+    images in a row share the same height (natural, differing widths) and the
+    row spans the column width.  The vertical gap between the two rows is set to
+    half the distance from the lower row's bottom to the footer in the previous
+    (tight, 14 pt-gap) layout, lifting the lower row toward mid-page.  `imgs` is
+    four (path, caption) tuples in reading order."""
+    iw      = img_col_w()
+    row_gap = 12          # horizontal gap within a row (matches _equal_height_row)
+    cap_h   = 15
+    asp = [img_aspect(os.path.join(BASE, p)) for p, _ in imgs]
+    h1 = (iw - row_gap) / (asp[0] + asp[1])
+    h2 = (iw - row_gap) / (asp[2] + asp[3])
+    row1_bot = content_top - h1
+    prev_row2_bot = (row1_bot - cap_h - 14) - h2      # old layout, 14 pt row gap
+    new_gap = (prev_row2_bot - (CY - 2)) / 2          # footer rule is at CY - 2
+    _equal_height_row(c, content_top, imgs[:2])
+    _equal_height_row(c, row1_bot - new_gap, imgs[2:])
+
+def draw_thesis(c, page_start, total_pages):
+    # ── Page 1 — Overview ──────────────────────────────────────────────────────
+    c.setFillColor(C_BG); c.rect(0, 0, PW, PH, fill=1, stroke=0)
+
+    content_top = draw_project_title_block(c,
+        "Autonomous Robotic Assembly of Multi-Layer Lincoln Log Structures",
+        THESIS_CAT, THESIS_DATE)
+
+    # Single hero photo of the robot, shown in full (letterboxed, not cropped).
+    iw    = img_col_w()
+    CAP_H = 16
+    tile  = "images/thesis/thesis_tile.JPG"
+    box_h = content_top - CY - CAP_H
+    dh    = fitted_dh(os.path.join(BASE, tile), iw, box_h)
+    fit_image(c, os.path.join(BASE, tile), CX, CY + CAP_H, iw, box_h, anchor="top")
+    draw_text(c, CX + iw / 2, content_top - dh - 11,
+              "UR3 arm assembling a Lincoln Log structure",
+              size=9.5, color=C_MUTED, align="center")
+
+    draw_text_column(c, [
+        ("Overview",
+         "My senior thesis asks a single question: how can an automated robotic system "
+         "reliably assemble multi-layer Lincoln Log structures layer-by-layer with high "
+         "precision? To answer it, I designed and built an autonomous system that uses a "
+         "UR3 robotic arm to assemble these structures with no cameras, force sensors, "
+         "or runtime feedback. It is the autonomous foundation for a longer-term goal of "
+         "human-robot collaborative construction: before a robot can share the task with "
+         "a person, it has to perform its own half reliably."),
+        ("Four Subsystems",
+         "The system integrates a parametric toolpath generator, a Cartesian motion "
+         "planner, a synchronized execution controller, and a set of custom 3D-printed "
+         "fixtures. The next two pages walk through the software pipeline and then the "
+         "mechanical hardware and test results."),
+        ("Skills Used",
+         "Python · Grasshopper / GhPython · COMPAS FAB · ROS · MoveIt! · UR3 · "
+         "Fusion 360 · 3D Printing · Robotic Fabrication"),
+    ], start_y=content_top)
+
+    draw_footer(c, page_start, total_pages)
+    c.showPage()
+
+    # ── Page 2 — Software Pipeline ─────────────────────────────────────────────
+    c.setFillColor(C_BG); c.rect(0, 0, PW, PH, fill=1, stroke=0)
+
+    content_top = draw_project_title_block(c,
+        "Autonomous Lincoln Log Assembly — Software Pipeline",
+        THESIS_CAT, THESIS_DATE)
+
+    # Cropped software-pipeline diagram, flush under the title.
+    iw   = img_col_w()
+    pipe = "images/thesis/code-pipeline_cropped.png"
+    ph   = fitted_dh(os.path.join(BASE, pipe), iw, content_top - CY)
+    fit_image(c, os.path.join(BASE, pipe), CX, content_top - ph, iw, ph, anchor="top")
+    draw_text(c, CX + iw / 2, content_top - ph - 11,
+              "Software pipeline — three GhPython components",
+              size=9.5, color=C_MUTED, align="center")
+    # Two trajectory images below, at equal height. The vertical gap to the
+    # pipeline is half the distance from the trajectory-row bottom to the footer
+    # in the previous (tight) layout, lifting the row toward mid-page.
+    traj = [("images/thesis/trajectory-waypoints.png", "Generated waypoint planes (Visualization in Rhino)"),
+            ("images/thesis/trajectory-planned.png",   "Planned Cartesian trajectory (Visualization in Rhino)")]
+    traj_h = (iw - 12) / sum(img_aspect(os.path.join(BASE, p)) for p, _ in traj)
+    pipe_bottom  = content_top - ph
+    prev_row_bot = (pipe_bottom - 15 - 10) - traj_h   # old layout, 10 pt gap
+    new_gap = (prev_row_bot - (CY - 2)) / 2           # footer rule is at CY - 2
+    _equal_height_row(c, pipe_bottom - new_gap, traj)
+
+    draw_text_column(c, [
+        ("Software Pipeline",
+         "Three independent GhPython components in Grasshopper — linked through native "
+         "DataTrees — generate geometry, plan motion, and drive the robot. Every log "
+         "follows the same seven-waypoint path, so the gripper enters and exits along "
+         "the z-axis."),
+        ("Parametric Toolpath Generator",
+         "Turns a few geometric inputs (pick and place planes, layer count) into the "
+         "end-effector frames for every log, handling alternating 90° layers with "
+         "strictly vertical approach and departure."),
+        ("Cartesian Motion Planner",
+         "Iterates over the waypoints and calls COMPAS FAB's plan_cartesian_motion for "
+         "each segment, with MoveIt! collision checking. Cartesian planning keeps the "
+         "gripper on a controlled arc that clears placed logs; every trajectory is "
+         "previewed in Rhino first."),
+        ("Execution Controller",
+         "Streams the trajectories to the UR3 over one persistent RPC connection and "
+         "fires the pneumatic gripper at exact segment boundaries — closing at the "
+         "dispenser, opening at the notch, each with a 500 ms dwell."),
+    ], start_y=content_top)
+
+    draw_footer(c, page_start + 1, total_pages)
+    c.showPage()
+
+    # ── Page 3 — Mechanical Components & Results ───────────────────────────────
+    c.setFillColor(C_BG); c.rect(0, 0, PW, PH, fill=1, stroke=0)
+
+    content_top = draw_project_title_block(c,
+        "Autonomous Lincoln Log Assembly — Mechanical Design & Results",
+        THESIS_CAT, THESIS_DATE)
+
+    _thesis_quad(c, content_top, [
+        ("images/thesis/base-v2-cad_cropped.png",      "Calibrated structural base"),
+        ("images/thesis/dispenser-final.jpg",          "Gravity-fed log dispenser"),
+        ("images/thesis/gripper-covers-installed.jpg", "Gripper with custom covers"),
+        ("images/thesis/final-structure.jpg",          "Completed two-layer assembly"),
+    ])
+
+    draw_text_column(c, [
+        ("Mechanical Design",
+         "Three custom 3D-printed fixtures (Fusion 360 / Rhino, PLA) replace runtime "
+         "sensing, so the robot never has to find or measure anything."),
+        ("Custom Fixtures", [
+         "A gravity-fed dispenser presents every log at the same pose from a 15° "
+         "inclined channel — chosen over a spring magazine that analysis ruled out.",
+         "A calibrated base fixes the first layer on exact 76.3 mm centerlines, so the "
+         "system skips first-layer calibration.",
+         "Custom gripper covers close the finger gap to log diameter for a positive-stop "
+         "grasp.",
+        ]),
+        ("Testing & Results", [
+         "Single-, two-, and three-layer builds, five trials each: 100%, ~75%, and ~83% "
+         "success.",
+         "Pick success was 100% every trial, validating the dispenser; all failures were "
+         "placements.",
+         "Failures were systematic: an odd-layer gripper-cover offset and an RPC "
+         "connection-pool exhaustion at the 6th log — both diagnosed and fixed.",
+        ]),
+    ], start_y=content_top)
+
+    draw_footer(c, page_start + 2, total_pages)
+    c.showPage()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# HTML PREVIEW — render each PDF page to PNG and build a scrollable gallery so
+# layout changes can be checked with a browser refresh instead of reopening the
+# PDF.  Requires PyMuPDF (fitz); silently skips if it isn't installed.
+# ─────────────────────────────────────────────────────────────────────────────
+PREVIEW_TEMPLATE = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio PDF — Layout Preview</title>
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:-apple-system,Segoe UI,Roboto,Helvetica,sans-serif;
+         background:#2b2b2b; color:#eee; }
+  header { position:sticky; top:0; z-index:10; background:#1b1b1b;
+           border-bottom:1px solid #000; padding:12px 20px;
+           display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  header h1 { font-size:15px; margin:0; font-weight:600; }
+  header .meta { font-size:12px; color:#9a9a9a; }
+  header .hint { margin-left:auto; font-size:12px; color:#9a9a9a; }
+  main { padding:26px 16px 64px; display:flex; flex-direction:column;
+         align-items:center; gap:26px; }
+  .page { margin:0; width:100%; max-width:1120px; }
+  .page img { width:100%; height:auto; display:block; border-radius:4px;
+              box-shadow:0 6px 22px rgba(0,0,0,.55); background:#fff; }
+  .page figcaption { text-align:center; font-size:12px; color:#9a9a9a; margin-top:8px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Portfolio PDF — Layout Preview</h1>
+  <span class="meta">__PAGESINFO__</span>
+  <span class="hint">Re-run generate_portfolio.py, then refresh (Ctrl/Cmd + R)</span>
+</header>
+<main>
+__CARDS__
+</main>
+</body>
+</html>
+"""
+
+def build_preview(pdf_path, dpi=140, pages=None):
+    """Render PDF pages to PNGs and write portfolio_preview.html.
+    pages=None renders the whole document; pass a list of 1-based page numbers
+    (e.g. [3, 4, 5]) to refresh only those pages and show just them."""
+    try:
+        import fitz  # PyMuPDF
+    except ImportError:
+        print("  [preview skipped] PyMuPDF (fitz) not installed")
+        return
+    import time
+    prev_dir = os.path.join(BASE, "preview")
+    os.makedirs(prev_dir, exist_ok=True)
+
+    doc = fitz.open(pdf_path)
+    n = doc.page_count
+    idxs = [p - 1 for p in pages] if pages else list(range(n))
+
+    if pages is None:                 # full rebuild — clear stale renders first
+        for f in os.listdir(prev_dir):
+            if f.startswith("page_") and f.endswith(".png"):
+                os.remove(os.path.join(prev_dir, f))
+
+    mat = fitz.Matrix(dpi / 72.0, dpi / 72.0)
+    ver = int(time.time())            # cache-buster so refresh shows new renders
+    cards = []
+    for i in idxs:
+        fn = f"page_{i + 1:02d}.png"
+        doc[i].get_pixmap(matrix=mat).save(os.path.join(prev_dir, fn))
+        cards.append(
+            '<figure class="page">'
+            f'<img src="preview/{fn}?v={ver}" alt="Page {i + 1}" loading="lazy">'
+            f'<figcaption>Page {i + 1} / {n}</figcaption></figure>'
+        )
+    doc.close()
+
+    if pages:
+        info = f"pages {', '.join(str(p) for p in pages)} of {n}"
+    else:
+        info = f"{n} pages"
+    info += " · generated " + time.strftime("%Y-%m-%d %H:%M:%S")
+
+    html = (PREVIEW_TEMPLATE
+            .replace("__CARDS__", "\n".join(cards))
+            .replace("__PAGESINFO__", info))
+    out_html = os.path.join(BASE, "portfolio_preview.html")
+    with open(out_html, "w", encoding="utf-8") as f:
+        f.write(html)
+    print(f"Preview: {out_html}  ({len(idxs)} of {n} pages)")
+
+# ─────────────────────────────────────────────────────────────────────────────
 # MAIN
 # ─────────────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    TOTAL = 12
+    TOTAL = 15
 
     c = canvas.Canvas(OUT, pagesize=landscape(letter))
     c.setTitle("Chimwemwe Chinkuyu — Engineering Portfolio")
     c.setAuthor("Chimwemwe Chinkuyu")
 
-    draw_cover(c, TOTAL)
-    draw_about(c, TOTAL)
-    draw_sarr(c,    3, TOTAL)
-    draw_gearbox(c, 5, TOTAL)
-    draw_car(c,     7, TOTAL)
-    draw_heat(c,    8, TOTAL)   # pages 8, 9, 10
-    draw_airfoil(c, 11, TOTAL)
+    draw_cover(c, TOTAL)              # 1
+    draw_about(c, TOTAL)             # 2
+    draw_thesis(c,   3, TOTAL)       # 3, 4, 5
+    draw_sarr(c,     6, TOTAL)       # 6, 7
+    draw_gearbox(c,  8, TOTAL)       # 8, 9
+    draw_car(c,     10, TOTAL)       # 10
+    draw_heat(c,    11, TOTAL)       # 11, 12, 13
+    draw_airfoil(c, 14, TOTAL)       # 14, 15
 
     c.save()
     print(f"Saved: {OUT}")
+
+    # Rebuild the full portfolio preview.  (Pass pages=[...] to refresh only a
+    # subset while iterating on specific pages.)
+    build_preview(OUT)

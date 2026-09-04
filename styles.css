@@ -190,7 +190,7 @@ ul { list-style: none; }
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(20, 1fr);
-  grid-template-rows: 298px;   /* first row (thesis + SARR): tuned height above the 184px auto-row */
+  grid-template-rows: 319px;   /* first row (thesis + SARR): tuned height above the 184px auto-row */
   grid-auto-rows: 184px;
   gap: 10px;
 }
