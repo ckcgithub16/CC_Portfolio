@@ -532,14 +532,14 @@ def draw_sarr(c, page_start, total_pages):
         ("Overview",
          "For a mechanical design course, I collaborated with 10 classmates to build a "
          "marsupial search and rescue robot that could navigate an obstacle course to "
-         "deliver a med kit. The system pairs a large Motherbot that carries a smaller "
-         "Babybot onboard. The Motherbot traversed a ramp, a chute, and a 36-inch wall. "
+         "deliver a med kit. The system pairs a 100-lb Motherbot that carries a smaller "
+         "20-lb Babybot onboard. The Motherbot traversed a ramp, a chute, and a 36-inch wall. "
          "At the wall, a motorized lifting arm raised the Babybot over the top, deploying "
          "it on the far side. The Babybot then navigated independently to a target zone "
          "and delivered a med kit payload."),
         ("Sensing & Control", [
          "Both robots used C++ state machine controllers on Teensy microcontrollers.",
-         "The Motherbot used CdS phototransistors for line-following — proportional "
+         "The Motherbot used CdS photoresistors for line-following — proportional "
          "on flat ground, bang-bang on the ramp, PD in the chute — and ultrasonic "
          "sensors to trigger state transitions.",
          "The arm deployment was open-loop.",
@@ -794,7 +794,7 @@ def draw_heat(c, page_start, total_pages):
          "finite-difference simulation from scratch in MATLAB to model 2D unsteady "
          "heat transfer over two geometries: a 400°C cylinder in 300°C flow "
          "(convective heat flux 7.6 kW/m²), and a NACA 2412 airfoil at 5° and 30° "
-         "angles of attack (heat flux 1,002.6 vs 1,133.6 W/m²)."),
+         "angles of attack (heat flux 1,133.6 vs 1,002.6 W/m²)."),
         ("Technical Approach", [
          "Three coupled PDEs solved at each time step:",
          "Streamfunction (Poisson) via Gauss-Seidel with over-relaxation",
@@ -826,8 +826,9 @@ def draw_heat(c, page_start, total_pages):
         "Separated Flow & Vortex Shedding",
         "Flow separates at the leading edge, producing large unsteady vortices shed "
         "periodically into the wake, with Strouhal number St = 0.62 — consistent with "
-        "separated-flow theory. Higher stagnation temperatures and increased heat flux "
-        "(13% above the 5° case) result from the thickened boundary layer.")
+        "separated-flow theory. The average heat flux is about 12% lower than the 5° "
+        "case (1,002.6 vs 1,133.6 W/m²), consistent with the separated region and "
+        "thickened boundary layers.")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # PROJECT 5 — LOAD-BEARING AIRFOIL  (2 pages)
