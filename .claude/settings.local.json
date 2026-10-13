@@ -10,7 +10,8 @@
       "Bash(python -c ' *)",
       "Read(//c/Users/ckc15/Downloads/thesis-webpage-v2/**)",
       "Bash(sed -n '/\\\\.waypoint-seq/,/^  <\\\\/style>/p' thesis-mockup.html)",
-      "Bash(python *)"
+      "Bash(python *)",
+      "PowerShell(python generate_portfolio.py)"
     ]
   }
 }

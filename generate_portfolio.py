@@ -530,7 +530,7 @@ def draw_sarr(c, page_start, total_pages):
 
     draw_text_column(c, [
         ("Overview",
-         "For a mechanical design course, I collaborated with 11 classmates to build a "
+         "For a mechanical design course, I collaborated with 10 classmates to build a "
          "marsupial search and rescue robot that could navigate an obstacle course to "
          "deliver a med kit. The system pairs a large Motherbot that carries a smaller "
          "Babybot onboard. The Motherbot traversed a ramp, a chute, and a 36-inch wall. "
